@@ -23,10 +23,28 @@ insert into historiaClinica values('', '2024-07-19', 3, 1016594413);
 select * from empleado;
 
 select * from historiaClinica;
-
+XD
 select * from venta;
+SD
+ASD
+ASDDAS
+DS
+dateD
+ASDDAS
+SAD
 
-/*ioaUUODBUOASBDUASBPUTODUOASBDUOASBDASUOBDASD*/
+
+
+SADASDAS
+
+
+SADASDASDAS
+DS
+S
+ASDDASDAS
+
+
+/*ioaUUODBUOASUIBGDASUIDASUBDUOASBDASUOBDASD*/
  
 insert into venta values ('', '2024-07-18', 7, 150000, (valorVenta*0.19), (valorVenta+ivaVenta));
 insert into dueno values(1012365456, "cedula", "Andrea", "Martinez", "martand@gmail.com", "3012345433");
