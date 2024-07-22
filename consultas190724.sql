@@ -15,12 +15,19 @@ select * from dueno;
 insert into citas values('', '2024-08-01', 1, 112421454, 1016594413);
 select * from citas;
 select * from mascota;
+
 delete from citas where codigoCitas in (4,5,6);
+
 insert into historiaClinica values('', '2024-07-19', 3, 1016594413);
+
 select * from empleado;
+
 select * from historiaClinica;
+
 select * from venta;
 
+/*ioaUUODBUOASBDUASBPUTODUOASBDUOASBDASUOBDASD*/
+ 
 insert into venta values ('', '2024-07-18', 7, 150000, (valorVenta*0.19), (valorVenta+ivaVenta));
 insert into dueno values(1012365456, "cedula", "Andrea", "Martinez", "martand@gmail.com", "3012345433");
 select * from dueno order by nombreDueno asc;
