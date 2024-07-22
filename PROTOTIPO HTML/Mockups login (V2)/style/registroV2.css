@@ -1,0 +1,77 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url(../imagenes/Background\ image.png);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.registro {
+    background-color: #fff;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    box-shadow: 0 0 8px #fff;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    text-align: center;
+    color: #2980b9;
+}
+
+.registro h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #2980b9;
+}
+
+.registro input,
+.registro button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.registro input:focus {
+    border-color: #2980b9;
+    outline: none;
+}
+
+.registro button {
+    background-color: #2980b9;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.registro button:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 600px) {
+    .registro {
+        padding: 20px;
+        width: 90%;
+    }
+    .registro h1, h2 {
+        font-size: 22px;
+    }
+    .registro input,
+    .registro button {
+        padding: 10px;
+        margin-bottom: 12px;
+    }
+}

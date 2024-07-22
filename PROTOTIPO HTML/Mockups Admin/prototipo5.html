@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style/prototipo5.css">
+    <title>Sala De Juegos Valhalla</title>
+</head>
+<body>
+    <div id="divG">
+        <div id="divP2">
+            <h1>Bienvenidos a Sala de Juegos Valhalla</h1>
+            <h2>Cajero</h2>
+        </div>
+        <div class="container">
+            <p>Selecciona la fecha de la que quiere informacion:</p>
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" />
+            <button id="bg" onclick="generarDatos()">Generar Reporte</button>
+            <div class="datos">
+                <div id="div1" class="dato"></div>
+                <div id="div2" class="dato"></div>
+            </div>
+            <p>Gracias por estar al tanto de sus ventas</p>
+        </div>
+        <footer>
+            <button id="B2" onclick="location.reload()">Actualizar</button>
+            <button id="B1" onclick="window.location.href='prototipo1.html'">Volver</button>
+        </footer>
+        <script src="script.js"></script>
+    </div>
+</body>
+</html>

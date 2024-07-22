@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SALA DE JUEGOS VALHALLA</title>
+    <link rel="stylesheet" href="style/reservaV2.css">
+</head>
+
+<body>
+    <div class="reservation">
+        <header>
+            <div class="pageTitles">
+                <h1>Sala de Juegos Valhalla</h1>
+                <h2>Reserva tu consola</h2>
+            </div>
+        </header>
+        <section>
+            <form action="get">
+                <input name="personName" type="text" placeholder="Nombre de quien reserva" required>
+                <br>
+                <input name="reservationDate" type="date" required>
+                <br>
+                <input name="timeUse" type="number" placeholder="Cantidad de tiempo que usaras la consola" required>
+                <br>
+                <input name="reservationTime" type="time"
+                    placeholder="Horario del dia de tu reserva" required>
+                <br>
+                <input name="idConsole" type="number"
+                    placeholder="Numero de la consola que quieres usar" required>
+                <br>
+                <textarea name="reservationComments" placeholder="Comentarios de la reserva"
+                rows="8"></textarea>
+            </form>
+        </section>
+        <footer>
+            <div class="submitForm">
+                <a href="#"><input type="submit" value="Reservar" id="submit"></a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

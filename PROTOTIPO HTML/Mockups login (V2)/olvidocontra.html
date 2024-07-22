@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Contraseña</title>
+    <link rel="stylesheet" href="style/olvidocontra.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="conte">
+        <div class="dv1">
+            <h1>Recuperar tu cuenta</h1>
+            <form id="form" method="POST" action="recuperar_contrasena.php">
+                <p>¿Cómo quieres recuperar tu cuenta?</p>
+                <div class="opciones">
+                    <label>
+                        <input type="radio" name="recuperacion" value="email" checked>
+                        Recuperar por correo electrónico
+                    </label>
+                    <label>
+                        <input type="radio" name="recuperacion" value="telefono">
+                        Recuperar por teléfono
+                    </label>
+                </div>
+                <div id="email-container" class="option2">
+                    <input type="text" id="email" name="email" placeholder="Introduce tu correo electrónico" required>
+                </div>
+                <div id="telefono-container" class="option2" style="display:none;">
+                    <input type="text" id="telefono" name="telefono" placeholder="Introduce tu número de teléfono" required>
+                </div>
+                <button type="submit">Siguiente</button>
+            </form>
+            <form id="codigoForm" method="POST" action="cambio_contrasena.php" style="display:none;">
+                <p>Introduce el código de verificación de 6 dígitos</p>
+                <input type="text" id="codigo" name="codigo" placeholder="Código de verificación" maxlength="6" required>
+                <p>Introduce tu nueva contraseña</p>
+                <input type="password" id="nuevaContrasena" name="nuevaContrasena" placeholder="Nueva contraseña" required>
+                <input type="password" id="nuevaContrasena" name="nuevaContrasena" placeholder="Confirmar contraseña" required>
+                <button type="submit"><a href="loginV2.html">Cambiar contraseña</a></button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const emailInput = document.getElementById('email-container');
+            const telefonoInput = document.getElementById('telefono-container');
+            const radioButtons = document.querySelectorAll('input[name="recuperacion"]');
+
+            function updateVisibility() {
+                const selectedValue = document.querySelector('input[name="recuperacion"]:checked').value;
+                if (selectedValue === 'email') {
+                    emailInput.style.display = 'block';
+                    telefonoInput.style.display = 'none';
+                } else {
+                    emailInput.style.display = 'none';
+                    telefonoInput.style.display = 'block';
+                }
+            }
+
+            updateVisibility();
+
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', updateVisibility);
+            });
+
+            document.getElementById('form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                Swal.fire({
+                    title: 'Enlace enviado',
+                    text: 'Se ha enviado un enlace de recuperación a la información proporcionada.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('form').style.display = 'none';
+                        document.getElementById('codigoForm').style.display = 'block';
+                    }
+                });
+            });
+
+            document.getElementById('codigo').addEventListener('input', function () {
+                this.value = this.value.replace(/\D/g, '');
+            });
+        });
+    </script>
+</body>
+</html>
+

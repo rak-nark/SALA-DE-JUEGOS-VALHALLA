@@ -1,0 +1,169 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 5px;
+    padding: 50px;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-image: url(../images/sba1.jpg);
+    background-position: center;
+    background-size: 2000px;
+    background-attachment: fixed;
+}
+
+.titulo {
+    justify-content: center;
+    margin: auto;
+    color: #2980b9;
+    width: 70%;
+    margin-bottom: 40px;
+    padding: 2px 5px;
+    background-color: #9acae6;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(255, 255, 255, 1);
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.contenedor-botones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.boton-consola {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.boton-consola:hover {
+    background-color: #2980b9;
+    box-shadow: 0px 5px 10px rgba(255, 255, 255, 1);
+}
+
+.imgC {
+    text-align: center;
+    width: 300px;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+img {
+    width: 100px;
+    height: 100px;
+}
+
+img:hover {
+    filter: contrast(120%);
+}
+
+#detalleFalla {
+    display: none;
+    box-sizing: border-box;
+    width: 70%;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+#detalleFalla h3 {
+    color: #3498db;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#detalleFalla form label {
+    display: block;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#detalleFalla form button {
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#detalleFalla form button:hover {
+    background-color: #2980b9;
+}
+
+#Descripcion {
+    font-family: Arial, sans-serif;
+    min-width: 99%;
+    min-height: 140px;
+    resize: none;
+    border: #2c3e50 solid 2px;
+    border-radius: 5px;
+}
+
+#tipoFalla {
+    padding: 5px;
+    border: #2c3e50 solid 2px;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#fecha {
+    padding: 5px;
+    border: #2c3e50 solid 2px;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#b-fallaForm {
+    margin: 5px;
+}
+
+.volver {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.boton-volver {
+    margin: 40px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    box-shadow: 0px 5px 10px rgba(255, 255, 255, 1);
+}
+
+.boton-volver a {
+    color: white;
+    text-decoration: none;
+}
+
+.boton-volver:hover {
+    background-color: #2980b9;
+}

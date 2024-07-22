@@ -1,0 +1,115 @@
+body {
+  font-family: "Arial", sans-serif;
+  margin: 5px;
+  padding: 50px;
+  height: 100%;
+  background-image: url(../images/sba1.jpg);
+  background-position: center;
+  background-size: 2000px;
+  background-attachment: fixed;
+}
+
+#divG {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5%;
+}
+
+#divP2 {
+  background-color: #9acae6;
+  color: #2980b9;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px rgba(255, 255, 255, 1);
+}
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+.container {
+  background-color: #9acae6;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px 10px;
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
+  margin: 20px 0;
+  text-align: center;
+  box-shadow: 0px 5px 10px rgba(255, 255, 255, 1);
+}
+
+.container p,
+.container label {
+  color: #2980b9;
+}
+
+#fecha {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #2980b9;
+  border-radius: 5px;
+  background-color: #e8eaf6;
+  color: #2980b9;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#bg {
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid #2980b9;
+  border-radius: 5px;
+  background-color: #e8eaf6;
+  color: #2980b9;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.container button:hover {
+  background-color: #1a237e;
+  color: #ffffff;
+}
+
+.datos {
+  margin: 20px 0;
+}
+
+.dato {
+  background-color: #e8eaf6;
+  border: 1px solid #2980b9;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+footer {
+  margin-top: 10px;
+}
+
+footer button {
+  background-color: #2980b9;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0px 5px 10px rgba(255, 255, 255, 1);
+}
+
+footer button:hover {
+  background-color: #1a237e;
+}
+
+footer button a {
+  color: #ffffff;
+  text-decoration: none;
+}
