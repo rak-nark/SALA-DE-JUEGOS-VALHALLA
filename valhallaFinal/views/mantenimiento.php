@@ -2,7 +2,6 @@
 include ("../connection/conexion.php");
 include ("../controller/mantenimientoControlador.php");
 ?>
-?>
 <?php 
 $c = new conexion();
 $cone =$c -> conectando();

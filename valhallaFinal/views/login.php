@@ -1,34 +1,50 @@
 <?php
 include('../connection/conexion.php');
 session_start();
-?>
-<?php
+
 if (isset($_POST['Ingresar'])) {
     $correoCliente = $_POST['correoCliente'];
     $contrasenaCliente = $_POST['contrasenaCliente'];
     $_SESSION['correoCliente'] = $correoCliente;
+
     $c = new Conexion();
     $cone = $c->conectando();
-    $stmt = $cone->prepare("SELECT contrasenaCliente FROM cliente WHERE correoCliente = ?");
-    $stmt->bind_param("s", $correoCliente); // "s" specifies the variable type => 'string'
+
+    // Consulta para obtener contraseña y rol
+    $stmt = $cone->prepare("SELECT contrasenaCliente, rol FROM cliente WHERE correoCliente = ?");
+    $stmt->bind_param("s", $correoCliente);
     $stmt->execute();
     $result = $stmt->get_result();
+
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $hashedPassword = $row['contrasenaCliente'];
+        $rol = $row['rol'];
+
+        // Verifica la contraseña
         if (password_verify($contrasenaCliente, $hashedPassword)) {
-            header("location:iniciosesion.php");
+            // Guarda datos esenciales en la sesión
+            $_SESSION['rol'] = $rol;
+
+            // Redirige según el rol
+            if ($rol === 'administrador') {
+                header("Location: venta.php");
+            } elseif ($rol === 'usuario') {
+                header("Location: iniciosesion.php");
+            }
             exit();
         } else {
-            echo "Contraseña incorrecta.";
+            echo "<script>alert('Contraseña incorrecta.');</script>";
         }
     } else {
-        echo "Usuario no encontrado.";
+        echo "<script>alert('Usuario no encontrado.');</script>";
     }
+
     $stmt->close();
-    mysqli_free_result($result);
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

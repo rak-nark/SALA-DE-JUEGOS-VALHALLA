@@ -1,8 +1,15 @@
 <?php
 session_start();
-//session_unset();
-unset($_SESSION['username']);
+
+// Destruir todas las variables de sesión
+session_unset();
+
+// Destruir la sesión completamente
 session_destroy();
-echo "se cerro la sesion";
-header("Location: login.php");
+
+// Mensaje para confirmar el cierre de sesión (puedes personalizar o redirigir de inmediato)
+echo "<script>
+        alert('Se cerró la sesión correctamente.');
+        window.location.href = 'login.php';
+      </script>";
 ?>

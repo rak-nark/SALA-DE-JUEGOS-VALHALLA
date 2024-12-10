@@ -1,26 +1,42 @@
 <?php 
-include ("../connection/conexion.php");
-include ("../controller/ventaControlador.php");
-?>
-?>
-<?php 
-$c = new conexion();
-$cone =$c -> conectando();
-$sql = "select max(id) from venta";
-$rs1 = mysqli_query(mysql:$cone,query:$sql);
-$arreglo=mysqli_fetch_row(result:$rs1);
-if($arreglo[0]>0){
-  $suma = 0;
-  $numero = $arreglo[0];
-  $suma = 1 + $arreglo[0];
-}else{
-  $suma = 0;
-  $numero = $arreglo[0];
-  $suma = 1 + $arreglo[0];
-  $obj->id = $suma;
+include("../connection/conexion.php");
+include("../controller/ventaControlador.php");
+
+// Inicia la sesión
+session_start();
+
+// Verifica si el usuario tiene el rol de administrador
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'administrador') {
+    header("Location: acceso_denegado.php"); // Redirige si no es administrador
+    exit();
 }
+
+// Mensaje de bienvenida para administradores
+echo "Bienvenido al módulo de ventas, " . htmlspecialchars($_SESSION['correoCliente']); // Escapar para mayor seguridad
+
+// Conexión a la base de datos
+$c = new conexion();
+$cone = $c->conectando();
+
+// Obtiene el último ID de la tabla 'venta'
+$sql = "SELECT MAX(id) AS max_id FROM venta";
+$rs1 = mysqli_query($cone, $sql);
+
+// Inicializa las variables necesarias
+$arreglo = mysqli_fetch_assoc($rs1);
+if ($arreglo && $arreglo['max_id'] > 0) {
+    $numero = $arreglo['max_id'];
+    $suma = $numero + 1;
+} else {
+    $suma = 1; // Si no hay registros, inicia el ID en 1
+}
+
+// Asigna el nuevo ID al objeto
 $obj->id = $suma;
+
+// Continúa con la lógica de 'venta.php'...
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
