@@ -1,0 +1,120 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../images/sba1.jpg);
+    background-position: center;
+    background-size: 2000px;
+    background-attachment: fixed;
+}
+
+.menu {
+    width: 100%;
+    overflow: hidden;
+    background-color: #9dceea;
+    color: #2980b9;
+}
+
+.navbar-list {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 14px 0;
+    margin: 0;
+}
+
+.menu-item a {
+    padding: 14px 20px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #2980b9;
+    transition: background-color 0.3s ease;
+}
+
+.menu a {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #2980b9;
+    transition: background-color 0.3s ease;
+}
+
+.menu a:hover {
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+    .navbar-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu-item a {
+        padding: 10px;
+    }
+}
+
+.content {
+    padding: 20px;
+    align-items: start;
+}
+
+.main-content {
+    background-color: #fff;
+    padding: 60px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-content a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease; 
+}
+
+.main-content a:hover {
+    color: #0056b3; 
+}
+
+header {
+    background-color: #9dceea; 
+    color: #2980b9;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: #2980b9;
+    font-size: 28px;
+}
+
+p {
+    line-height: 1.6;
+    color: #000;
+}
+
+.logo-content {
+    width: 300px;
+    height: 200px;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 3px #2980b9);
+}
+
+h2 {
+    color: #2980b9;
+    font-size: 24px; 
+}
+
+.contenido {
+    margin-top: 10px;
+}

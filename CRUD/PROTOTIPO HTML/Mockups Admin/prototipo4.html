@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style/prototipo4.css" />
+    <title>Sala de Juegos Valhalla</title>
+</head>
+<body>
+    <div class="titulo">
+        <h1>Bienvenidos a la Sala de Juegos Valhalla</h1>
+        <h2 id="h2">Mantenimiento Consolas</h2>
+    </div>
+    <div class="contenedor-botones">
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="1">Consola 1 Mantenimiento</button>
+        </div>  
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="2">Consola 2 Mantenimiento</button>
+        </div>
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="3">Consola 3 Mantenimiento</button>
+        </div>
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="4">Consola 4 Mantenimiento</button>
+        </div>
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="5">Consola 5 Mantenimiento</button>
+        </div>
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="6">Consola 6 Mantenimiento</button>
+        </div>
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="7">Consola 7 Mantenimiento</button>
+        </div>
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="8">Consola 8 Mantenimiento</button>
+        </div>
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="9">Consola 9 Mantenimiento</button>
+        </div>
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="10">Consola 10 Mantenimiento</button>
+        </div>
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="11">Consola 11 Mantenimiento</button>
+        </div>
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="12">Consola 12 Mantenimiento</button>
+        </div>
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="13">Consola 13 Mantenimiento</button>
+        </div>
+        <div class="imgC">
+            <img src="images/XBOX 360.png" alt="Consola XBOX 360">
+            <button class="boton-consola" data-id="14">Consola 14 Mantenimiento</button>
+        </div>
+    </div>
+
+    <div id="detalleFalla">
+        <h3>DETALLES DEL MANTENIMIENTO</h3>
+        <form id="fallaForm">
+            <label for="tipoFalla">Tipo de Mantenimiento:</label>
+            <select id="tipoFalla" name="tipoFalla">
+                <option value="Preventivo">Preventivo</option>
+                <option value="Correctivo">Correctivo</option>
+                <option value="Predictivo">Predictivo</option>
+            </select>
+            <br>
+            <br>
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha">
+            <br>
+            <br>
+            <label for="Descripcion">Descripcion:</label>
+            <textarea id="Descripcion" name="Descripcion" placeholder="Descripcion de la falla"></textarea>
+            <br>
+            <br>
+            <button id="b-fallaForm" type="button" onclick="modificar()">Modificar</button>
+            <button id="b-fallaForm" type="submit">Guardar</button>
+        </form>
+    </div>
+    <div class="volver">
+        <button class="boton-volver" onclick="window.location.href='prototipo1.html'">Volver</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SALA DE JUEGOS VALHALLA</title>
+    <link rel="stylesheet" href="style/loginV2.css" />
+</head>
+
+<body>
+    <div class="inicioSesion">
+        <div class="title1">
+            <h1>Sala De Juegos Valhalla</h1>
+        </div>
+        <div class="title2">
+            <h2>Inicio De Sesión</h2>
+        </div>
+        <div class="formulario">
+            <form id="loginForm" method="POST" onsubmit="redirectToPage(); return false;">
+                <label for="seleccionar">Seleccionar el tipo de usuario:</label>
+                <select id="seleccionar" name="seleccionar">
+                    <option value="user">Usuario</option>
+                    <option value="admin">Administrador</option>
+                </select>
+                <input type="text" name="nombre" placeholder="Nombre de usuario" required />
+                <input type="password" name="contraseña" placeholder="Contraseña" required />
+                <button class="OlvidoContraseña"><a id="OlvidoContraseña" href="olvidocontra.html">Olvidé mi contraseña</a></button>
+                <button type="submit" class="C_P button">Entrar</button>
+                <button class="C_R button">
+                    <a id="Registrar" href="./registroV2.html">Registrar usuario</a>
+                </button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function redirectToPage() {
+            var seleccionar = document.getElementById("seleccionar").value;
+            if (seleccionar === "user") {
+                window.location.href = "reservaV2.html";
+            } else if (seleccionar === "admin") {
+                window.location.href = "../Mockups Admin/prototipo1.html"; 
+            }
+        }
+    </script>
+</body>
+</html>
