@@ -1,39 +1,71 @@
 # Sala de Juegos Valhalla 🎮
 
-Este proyecto gestiona una sala de videojuegos que permite a los usuarios reservar consolas como Xbox 360 y Xbox One. Cuenta con un sistema dividido en frontend (Angular), backend (Laravel API) y una app Android.
+Sistema integral para gestión de reservas en sala de videojuegos con módulos para usuarios y administradores.
 
-## Tecnologías utilizadas 🛠️
+## 🌟 Tecnologías Principales
+- **Frontend**: Angular 12+
+- **Backend**: Laravel 9+ (API REST)
+- **Base de datos**: MySQL 8+
+- **Mobile**: Android (Kotlin)
+- **CRUD**: PHP nativo (para módulo administrativo)
 
-- **Frontend:** Angular
-- **Backend:** Laravel (API RESTful)
-- **Base de datos:** MySQL
-- **App móvil:** Android (Java/Kotlin)
+## 🚀 Funcionalidades Clave
+### Para Usuarios
+- Registro e inicio de sesión seguro
+- Reserva de consolas (Xbox 360/One)
+- Historial de reservas
+- Validación de disponibilidad en tiempo real
 
-## Funcionalidades principales ✅
+### Para Administradores
+- Panel CRUD completo
+- Gestión de usuarios y reservas
+- Reportes de actividad
+- Configuración del sistema
 
-- Autenticación de usuarios (registro e inicio de sesión)
-- Reservas de consolas por fecha y hora
-- Vista administrativa con CRUD de reservas y usuarios
-- Eliminación controlada de usuarios y reservas
-- Validaciones según reglas de horario y disponibilidad
+## 🗂 Estructura del Proyecto
+```
+├── backend/ # API Laravel
+├── frontend/ # Aplicación Angular
+├── CRUD/ # Panel administrativo (PHP)
+│ ├── configs/ # Assets (CSS/JS/imágenes)
+│ ├── connection/ # Configuración DB
+│ ├── controller/ # Lógica PHP
+│ ├── model/ # Clases DB
+│ └── views/ # Interfaces
+└── mobile/ # App Android
+```
 
-## Estructura del proyecto 📁
+## ⚙️ Configuración
 
-
-## Cómo ejecutar el proyecto 🚀
-
-### Backend Laravel
+### Backend (Laravel API)
 ```bash
-cd valhalla_laravel
+cd backend/valhalla_laravel
 composer install
 cp .env.example .env
 php artisan key:generate
-php artisan migrate
+# Configurar .env con credenciales DB
+php artisan migrate --seed
 php artisan serve
-
-### Frontend Angular
-
-cd valhalla_angular
+ ```
+Frontend (Angular)
+```
+cd frontend/valhalla_angular
 npm install
 ng serve
+```
+Panel Administrativo (CRUD PHP)
+```
+Copiar carpeta CRUD/ a htdocs:
+```
+Importar valhalla.sql via phpMyAdmin
 
+Configurar conexión en CRUD/connection/conexion.php
+
+Acceder via: http://localhost/CRUD/views/login.php
+
+🔐 Credenciales de Prueba
+Admin: juanitoalimana@gmail.com / 123456789
+Usuario: angelita@gmail.com / 123456789
+
+📄 Licencia
+MIT License © 2025 Sala de Juegos Valhalla
