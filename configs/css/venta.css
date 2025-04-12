@@ -1,0 +1,57 @@
+<!-- Animate.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+    .card {
+        border: none;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        border-radius: 16px;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .card-header {
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+    }
+
+    .btn-success, .btn-info, .btn-outline-light {
+        transition: all 0.3s ease;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    .btn-info:hover {
+        background-color: #138496;
+        color: white;
+    }
+
+    .table thead th {
+        font-weight: bold;
+        vertical-align: middle;
+    }
+
+    .pagination .page-link {
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #28a745;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .card-header {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .card-header form {
+            width: 100%;
+        }
+        .btn {
+            width: 100%;
+        }
+    }
+</style>

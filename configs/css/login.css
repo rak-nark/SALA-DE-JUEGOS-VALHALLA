@@ -1,0 +1,51 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Fondo de pantalla */
+.login-page {
+    background: url('../configs/image/fondo5.png') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Formulario centrado */
+.formulario .wrapper-login {
+    background: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Iconos dentro del input */
+.input-icon {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-control {
+    padding-right: 2.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    outline: none;
+}
+
+/* Botón login */
+.btn-login {
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
