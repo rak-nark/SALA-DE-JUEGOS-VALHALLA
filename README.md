@@ -41,7 +41,7 @@ Sistema integral para gestión de reservas en sala de videojuegos con módulos p
 ```bash
 cd backend/valhalla_laravel
 composer install
-cp .env.example .env
+cp .env.example .env  o copy .env.example .env
 php artisan key:generate
 # Configurar .env con credenciales DB
 php artisan migrate --seed
