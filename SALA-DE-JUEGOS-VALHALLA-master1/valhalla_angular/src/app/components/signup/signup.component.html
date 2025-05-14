@@ -1,0 +1,41 @@
+<div class="container mt-5">
+    <div class="card shadow p-4 animated-border" style="max-width: 400px; margin: 0 auto;">
+        <h2 class="text-center mb-4 animated-title">Crear una cuenta</h2>
+        <form [formGroup]="form" (ngSubmit)="signup()">
+            <div class="mb-3">
+                <label for="nombreCliente" class="form-label">Nombre</label>
+                <input type="text" id="nombreCliente" class="form-control" formControlName="nombreCliente"
+                    placeholder="Ingrese su nombre" />
+                    <div *ngIf="form.get('nombreCliente')?.invalid && form.get('nombreCliente')?.touched" class="text-danger small">
+                        <div *ngIf="form.get('nombreCliente')?.errors?.['required']">El nombre es obligatorio.</div>
+                        <div *ngIf="form.get('nombreCliente')?.errors?.['pattern']">Solo se permiten letras.</div>
+                    </div>
+                    
+            </div>
+            <div class="mb-3">
+                <label for="apellidoCliente" class="form-label">Apellido</label>
+                <input type="text" id="apellidoCliente" class="form-control" formControlName="apellidoCliente"
+                    placeholder="Ingrese su apellido" />
+                    <div *ngIf="form.get('apellidoCliente')?.invalid && form.get('apellidoCliente')?.touched" class="text-danger small">
+                        <div *ngIf="form.get('apellidoCliente')?.errors?.['required']">El apellido es obligatorio.</div>
+                        <div *ngIf="form.get('apellidoCliente')?.errors?.['pattern']">Solo se permiten letras.</div>
+                    </div>
+                    
+            </div>
+            <div class="mb-3">
+                <label for="correoCliente" class="form-label">Correo Electrónico</label>
+                <input type="email" id="correoCliente" class="form-control" formControlName="correoCliente"
+                    placeholder="Ingrese su correo" />
+            </div>
+            <div class="mb-3">
+                <label for="contrasenaCliente" class="form-label">Contraseña</label>
+                <input type="password" id="contrasenaCliente" class="form-control" formControlName="contrasenaCliente"
+                    placeholder="Ingrese su contraseña" />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+            <div class="text-center mt-3">
+                <small>¿Ya Estas Registrado? <a [routerLink]="['/login']" class="text-decoration-none animated-title">Iniciar Sesión</a></small>
+            </div>
+        </form>
+    </div>
+</div>
