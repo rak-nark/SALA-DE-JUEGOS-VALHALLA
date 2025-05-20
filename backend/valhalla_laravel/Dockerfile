@@ -35,4 +35,5 @@ RUN php artisan key:generate
 EXPOSE 8000
 
 # Comando por defecto para iniciar el servidor de desarrollo
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+
+CMD ["/bin/sh", "-c", "if [ ! -f .env ]; then cp .env.example .env; fi && composer install && php artisan key:generate && php artisan serve --host=0.0.0.0 --port=8000"]
