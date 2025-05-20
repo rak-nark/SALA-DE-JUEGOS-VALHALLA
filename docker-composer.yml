@@ -2,30 +2,20 @@ version: '3.8'
 
 services:
   frontend:
-    build:
-      context: ./frontend/valhalla_angular
-      dockerfile: Dockerfile
+    image: raknark/sdj-frontend:latest
     container_name: frontend-angular
     ports:
       - "4200:4200"
-    volumes:
-      - ./frontend/valhalla_angular:/app
     depends_on:
       - backend
     networks:
       - valhalla_net
 
   backend:
-    build:
-      context: ./backend/valhalla_laravel
-      dockerfile: Dockerfile
+    image: raknark/sdj-backend:latest
     container_name: backend-laravel
     ports:
       - "8000:8000"
-    volumes:
-      - ./backend/valhalla_laravel:/var/www
-    depends_on:
-      - db
     environment:
       - DB_CONNECTION=mysql
       - DB_HOST=db
@@ -33,6 +23,8 @@ services:
       - DB_DATABASE=valhalla
       - DB_USERNAME=root
       - DB_PASSWORD=
+    depends_on:
+      - db
     networks:
       - valhalla_net
 
@@ -51,7 +43,7 @@ services:
       - valhalla_net
 
   db:
-    image: mysql:8.3
+    image: raknark/sdj-mysql:8.3
     container_name: mysql-db
     restart: always
     environment:
@@ -62,7 +54,7 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./DB:/docker-entrypoint-initdb.d 
+      - ./DB:/docker-entrypoint-initdb.d
     networks:
       - valhalla_net
 
