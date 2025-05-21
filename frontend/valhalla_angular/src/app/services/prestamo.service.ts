@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PrestamoService {
-  private apiUrl = 'http://127.0.0.1:8000/api/reserva';  // URL del backend Laravel
+  private apiUrl = 'https://refactored-space-tribble-7vv5ppv64wgjfrvjp-8000.app.github.dev/api/reserva';  // URL del backend Laravel
 
   constructor(private http: HttpClient) {}
 

@@ -73,7 +73,7 @@ export class ReservaComponent implements OnInit {
   guardar() {
     if (this.form.valid) {
       const datos = this.form.value;
-      this.http.post('http://127.0.0.1:8000/api/reserva', datos).subscribe({
+      this.http.post('https://refactored-space-tribble-7vv5ppv64wgjfrvjp-8000.app.github.dev/api/reserva', datos).subscribe({
         next: (respuesta: any) => {
           alert('¡Reserva exitosa!');
           this.router.navigate(['/home']);

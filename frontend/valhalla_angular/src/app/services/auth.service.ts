@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:8000/api';  // URL de la API Laravel
+  private apiUrl = 'https://refactored-space-tribble-7vv5ppv64wgjfrvjp-8000.app.github.dev/api';
 
   constructor(private http: HttpClient, private router: Router) {}
 

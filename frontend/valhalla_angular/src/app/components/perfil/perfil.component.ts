@@ -38,7 +38,7 @@ export class PerfilComponent {
       }
   
       // Enviar la solicitud PUT
-      this.http.put(`http://127.0.0.1:8000/api/cliente/${userId}`, datosActualizados).subscribe(
+      this.http.put(`https://refactored-space-tribble-7vv5ppv64wgjfrvjp-8000.app.github.dev/api/cliente/${userId}`, datosActualizados).subscribe(
         (data) => {
           alert('Datos actualizados correctamente');
           console.log('Cambios realizados correctamente:', data);

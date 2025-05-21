@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class ReservaService {
-  private apiUrl = 'http://127.0.0.1:8000/api';  // URL de la API Laravel
+  private apiUrl = 'https://refactored-space-tribble-7vv5ppv64wgjfrvjp-8000.app.github.dev/api';  // URL de la API Laravel
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
