@@ -2,18 +2,18 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\models\prestamoModelo;
+use App\Models\PrestamoModelo;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use App\models\Consola;
+use App\Models\Consola;
 
 
-class prestamoControlador extends Controller
+class PrestamoControlador extends Controller
 {
     public function index(){
-        $prestamo = prestamoModelo::all(); 
+        $prestamo = PrestamoModelo::all(); 
         if($prestamo->isEmpty()){
             $data=[
                 'message'=>'No hay prestamos registrados',
@@ -72,7 +72,7 @@ class prestamoControlador extends Controller
         }
 
         // Validar que el cliente no tenga más de 2 reservas en el mismo día
-        $reservasDelDia = prestamoModelo::where('fecha', $request->fecha)
+        $reservasDelDia = PrestamoModelo::where('fecha', $request->fecha)
         ->where('id_cliente', $request->id_cliente)
         ->count();
 
@@ -88,7 +88,7 @@ class prestamoControlador extends Controller
         $horaFin = $horaInicio->copy()->addMinutes($request->tiempodeuso);
     
         // Verificar si hay conflictos con reservas existentes
-        $conflicto = prestamoModelo::where('fecha', $request->fecha)
+        $conflicto = PrestamoModelo::where('fecha', $request->fecha)
         ->where('id_consola', $request->id_consola)
         ->where(function ($query) use ($horaInicio, $horaFin) {
             $query->where(function ($q) use ($horaInicio, $horaFin) {
@@ -114,7 +114,7 @@ class prestamoControlador extends Controller
         }
 
         // Crear el préstamo si no hay conflictos
-        $prestamo = prestamoModelo::create([
+        $prestamo = PrestamoModelo::create([
             'fecha' => $request->fecha,
             'hora' => $request->hora,
             'tiempodeuso' => $request->tiempodeuso,
@@ -137,7 +137,7 @@ class prestamoControlador extends Controller
     }
     // Buscar Registro
     public function show($idPrestamo){
-        $prestamo = prestamoModelo::find($idPrestamo);
+        $prestamo = PrestamoModelo::find($idPrestamo);
         if(!$prestamo){
             $data=[
                 'messsage'=>'Prestamo No Existe',
@@ -155,7 +155,7 @@ class prestamoControlador extends Controller
     public function update(Request $request, $idPrestamo)
 {
     // Buscar el préstamo por ID
-    $prestamo = prestamoModelo::find($idPrestamo);
+    $prestamo = PrestamoModelo::find($idPrestamo);
     if (!$prestamo) {
         return response()->json([
             'message' => 'Préstamo no encontrado',
@@ -211,7 +211,7 @@ class prestamoControlador extends Controller
     $horaInicio = Carbon::createFromFormat('H:i', $request->hora);
     $horaFin = $horaInicio->copy()->addMinutes($request->tiempodeuso); // Usar minutos
     // Verificar si hay conflictos con reservas existentes (excluyendo el préstamo actual)
-    $conflictos = prestamoModelo::where('fecha', $request->fecha)
+    $conflictos = PrestamoModelo::where('fecha', $request->fecha)
         ->where('id_consola', $request->id_consola)
         ->where('idPrestamo', '!=', $idPrestamo) // Excluir el préstamo actual
         ->get();
@@ -243,7 +243,7 @@ class prestamoControlador extends Controller
     // Eliminar Registro
     public function destroy(Request $request, $idPrestamo)
     {
-        $prestamo = prestamoModelo::find($idPrestamo);
+        $prestamo = PrestamoModelo::find($idPrestamo);
 
         if (!$prestamo) {
             $data = [

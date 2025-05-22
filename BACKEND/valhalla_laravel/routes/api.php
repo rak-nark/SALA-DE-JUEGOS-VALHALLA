@@ -1,5 +1,5 @@
 <?php
-use App\Http\Controllers\prestamoControlador;
+use App\Http\Controllers\PrestamoControlador;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MisprestamosController;
 use App\Http\Controllers\ReservaController;
@@ -21,11 +21,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/cliente/{idCliente}', [AuthController::class, 'destroy']);
     // Rutas relacionadas con las reservas
     Route::get('/prestamos', [ReservaController::class, 'index']); // Obtener todos los préstamos
-    Route::get('/reserva', [prestamoControlador::class, 'index']); // Obtener todas las reservas
-    Route::post('/reserva', [prestamoControlador::class, 'store']); // Crear una reserva
-    Route::get('/reserva/{idPrestamo}', [prestamoControlador::class, 'show']); // Obtener una reserva específica
-    Route::put('/reserva/{idPrestamo}', [prestamoControlador::class, 'update']); // Actualizar una reserva
-    Route::delete('/reserva/{idPrestamo}', [prestamoControlador::class, 'destroy']); // Eliminar una reserva
+    Route::get('/reserva', [PrestamoControlador::class, 'index']); // Obtener todas las reservas
+    Route::post('/reserva', [PrestamoControlador::class, 'store']); // Crear una reserva
+    Route::get('/reserva/{idPrestamo}', [PrestamoControlador::class, 'show']); // Obtener una reserva específica
+    Route::put('/reserva/{idPrestamo}', [PrestamoControlador::class, 'update']); // Actualizar una reserva
+    Route::delete('/reserva/{idPrestamo}', [PrestamoControlador::class, 'destroy']); // Eliminar una reserva
     // Ruta para obtener las reservas del usuario autenticado
     Route::get('/mis-reservas', [ReservaController::class, 'misReservas']);
     // Ruta para cerrar sesión
