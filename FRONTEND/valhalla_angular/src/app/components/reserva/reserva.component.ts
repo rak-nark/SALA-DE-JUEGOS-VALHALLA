@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, FormBuilder } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ReservaService } from '../../services/reserva.service'; // 👈 Importa el service
 
 @Component({
   selector: 'app-reserva',
@@ -42,7 +42,7 @@ export class ReservaComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private http: HttpClient,
+    private reservaService: ReservaService, // 👈 Inyecta el service
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
@@ -101,7 +101,7 @@ export class ReservaComponent implements OnInit {
   guardar() {
     if (this.form.valid) {
       const datos = this.form.value;
-      this.http.post('http://127.0.0.1:8000/api/reserva', datos).subscribe({
+      this.reservaService.crearReserva(datos).subscribe({
         next: (respuesta: any) => {
           alert('¡Reserva exitosa!');
           this.router.navigate(['/home']);

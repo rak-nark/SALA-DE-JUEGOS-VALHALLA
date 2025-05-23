@@ -3,15 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:8000/api';  // URL de la API Laravel
+  private apiUrl = environment.apiUrl;  // URL de la API Laravel
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
+  register(datos: any) {
+    return this.http.post(`${this.apiUrl}/register`, datos);
+  }
   // Iniciar sesión
   login(credentials: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
@@ -44,7 +48,7 @@ export class AuthService {
 
   // Obtener usuario autenticado
   getUser(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user`, {
+    return this.http.get(`${this.apiUrl}/cliente`, {
       headers: { Authorization: `Bearer ${this.getToken()}` }
     });
   }
@@ -57,10 +61,13 @@ export class AuthService {
   // Cerrar sesión
   logout(): void {
     localStorage.removeItem('token');
-    localStorage.removeItem('userId'); // Eliminar el userId al cerrar sesión
-    console.log('Token eliminado. Cerrando sesión...');
-    this.router.navigate(['/login']);
-}
+    localStorage.removeItem('userId');
+    this.http.get(`${this.apiUrl}/logout`, {
+      headers: { Authorization: `Bearer ${this.getToken()}` }
+    }).subscribe(() => {
+      this.router.navigate(['/login']);
+    });
+  }
 
 
   // Obtener el cliente autenticado desde el localStorage
@@ -70,5 +77,17 @@ export class AuthService {
       return { id: userId }; // Devuelve un objeto con el ID del cliente
     }
     return null; // Si no hay userId, devuelve null
+  }
+
+  updateUser(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/cliente/${id}`, data, {
+      headers: { Authorization: `Bearer ${this.getToken()}` }
+    });
+  }
+
+  deleteUser(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/cliente/${id}`, {
+      headers: { Authorization: `Bearer ${this.getToken()}` }
+    });
   }
 }

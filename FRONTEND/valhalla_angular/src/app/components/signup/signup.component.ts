@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +13,7 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -35,7 +35,7 @@ export class SignupComponent implements OnInit {
   signup(): void {
     if (this.form.valid) {
       const datos = this.form.value;
-      this.http.post('http://127.0.0.1:8000/api/register', datos).subscribe({
+      this.authService.register(datos).subscribe({
         next: () => {
           console.log('Usuario registrado con éxito');
           this.router.navigate(['/home']);
@@ -44,7 +44,7 @@ export class SignupComponent implements OnInit {
       });
     } else {
       console.error('El formulario no es válido.');
-      this.form.markAllAsTouched(); // Para mostrar errores
+      this.form.markAllAsTouched();
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
@@ -14,35 +14,25 @@ export class PerfilComponent {
     correoCliente: '',
     contrasenaCliente: ''
   };
+
   constructor(
     private router: Router,
-    private http: HttpClient,
     private authService: AuthService
   ) {}
+
   guardarCambios(): void {
     const userId = localStorage.getItem('userId');
     if (userId) {
-      // Crear un objeto con solo los campos modificados
       const datosActualizados: any = {};
-      if (this.cliente.nombreCliente) {
-        datosActualizados.nombreCliente = this.cliente.nombreCliente;
-      }
-      if (this.cliente.apellidoCliente) {
-        datosActualizados.apellidoCliente = this.cliente.apellidoCliente;
-      }
-      if (this.cliente.correoCliente) {
-        datosActualizados.correoCliente = this.cliente.correoCliente;
-      }
-      if (this.cliente.contrasenaCliente) {
-        datosActualizados.contrasenaCliente = this.cliente.contrasenaCliente;
-      }
-  
-      // Enviar la solicitud PUT
-      this.http.put(`http://127.0.0.1:8000/api/cliente/${userId}`, datosActualizados).subscribe(
+      if (this.cliente.nombreCliente) datosActualizados.nombreCliente = this.cliente.nombreCliente;
+      if (this.cliente.apellidoCliente) datosActualizados.apellidoCliente = this.cliente.apellidoCliente;
+      if (this.cliente.correoCliente) datosActualizados.correoCliente = this.cliente.correoCliente;
+      if (this.cliente.contrasenaCliente) datosActualizados.contrasenaCliente = this.cliente.contrasenaCliente;
+
+      this.authService.updateUser(userId, datosActualizados).subscribe(
         (data) => {
           alert('Datos actualizados correctamente');
-          console.log('Cambios realizados correctamente:', data);
-          this.router.navigate(['/login'])// Mensaje en consola
+          this.router.navigate(['/login']);
         },
         (error) => {
           if (error.error && error.error.errors) {
@@ -54,7 +44,6 @@ export class PerfilComponent {
           } else {
             alert('Error al actualizar los datos. Por favor, intenta nuevamente.');
           }
-          console.error('Error al actualizar los datos:', error); // Mensaje de error en consola
         }
       );
     } else {
@@ -62,30 +51,30 @@ export class PerfilComponent {
       this.router.navigate(['/login']);
     }
   }
+
   confirmarEliminarCuenta(): void {
     if (confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.')) {
       this.eliminarCuenta();
     }
   }
+
   eliminarCuenta(): void {
     const userId = localStorage.getItem('userId');
     if (userId) {
-      this.http.delete(`http://127.0.0.1:8000/api/cliente/${userId}`).subscribe(
+      this.authService.deleteUser(userId).subscribe(
         () => {
           alert('Tu cuenta ha sido eliminada correctamente.');
-          this.authService.logout(); // Cerrar sesión
-          this.router.navigate(['/login']); // Redirigir al login
+          this.authService.logout();
+          this.router.navigate(['/login']);
         },
         (error) => {
           if (error.status === 409) {
-            // 👇 Este mensaje viene del backend cuando hay reservas pendientes
-            alert(error.error.message); 
+            alert(error.error.message);
           } else if (error.status === 404) {
             alert('Usuario no encontrado. Por favor, inicia sesión nuevamente.');
           } else {
             alert('Error al eliminar la cuenta. Por favor, intenta nuevamente.');
           }
-          console.error(error);
         }
       );
     } else {
@@ -93,8 +82,8 @@ export class PerfilComponent {
       this.router.navigate(['/login']);
     }
   }
-  
+
   logout(): void {
-    this.authService.logout(); // Llama al método logout del servicio AuthService
+    this.authService.logout();
   }
 }

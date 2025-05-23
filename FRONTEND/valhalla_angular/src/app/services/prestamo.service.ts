@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { environment } from '../../environments/environment'; // Asegúrate de que la ruta sea correcta
 @Injectable({
   providedIn: 'root'
 })
 export class PrestamoService {
-  private apiUrl = 'http://127.0.0.1:8000/api/reserva';  // URL del backend Laravel
-
+private apiUrl = environment.apiUrl + '/reserva';  // URL de la API Laravel
   constructor(private http: HttpClient) {}
 
   // Obtener token almacenado
@@ -21,13 +20,13 @@ export class PrestamoService {
   }
 
   // Obtener todos los préstamos
-  getPrestamos(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl, this.getAuthHeaders());
+ getPrestamos(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/prestamos`, this.getAuthHeaders());
   }
 
   // Obtener un préstamo por ID
-  getPrestamoById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`, this.getAuthHeaders());
+  getPrestamosPorCliente(clienteId: string): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/prestamos/${clienteId}`, this.getAuthHeaders());
   }
 
   // Crear un nuevo préstamo
