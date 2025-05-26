@@ -7,6 +7,6 @@ session_destroy();
 // Mensaje para confirmar el cierre de sesión (puedes personalizar o redirigir de inmediato)
 echo "<script>
         alert('Se cerró la sesión correctamente.');
-        window.location.href = 'login.php';
+        window.location.href = 'index.php';
       </script>";
 ?>

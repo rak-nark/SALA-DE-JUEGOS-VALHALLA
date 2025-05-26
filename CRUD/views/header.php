@@ -105,7 +105,7 @@ if (!isset($activePage)) {
             <i class="fa-solid fa-user-circle me-1"></i>Perfil
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="login.php"><i class="fa-solid fa-right-to-bracket me-2"></i>Iniciar Sesión</a></li>
+            <li><a class="dropdown-item" href="index.php"><i class="fa-solid fa-right-to-bracket me-2"></i>Iniciar Sesión</a></li>
             <li><a class="dropdown-item" href="logout.php"><i class="fa-solid fa-right-from-bracket me-2"></i>Cerrar Sesión</a></li>
           </ul>
         </li>

@@ -1,6 +1,6 @@
 <?php
 class Conexion {
-    private $servidor = "localhost";
+    private $servidor = "mysql-db";
     private $usuario = "root";
     private $password = "";
     private $db = "valhalla";
