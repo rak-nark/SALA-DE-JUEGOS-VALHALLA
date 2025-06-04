@@ -23,15 +23,21 @@ class Consola {
             return false;
         }
         
-        $sql = "UPDATE consola SET 
-                estado = '$this->estado' 
-                WHERE id = '$this->id'";
-        
-        if(mysqli_query($cone, $sql)) {
+        // Consulta preparada para evitar inyección SQL
+        $sql = "UPDATE consola SET estado = ? WHERE id = ?";
+        $stmt = mysqli_prepare($cone, $sql);
+        if (!$stmt) {
+            echo '<script>Swal.fire("Error", "Error en la preparación de la consulta", "error");</script>';
+            return false;
+        }
+        mysqli_stmt_bind_param($stmt, "si", $this->estado, $this->id);
+        if(mysqli_stmt_execute($stmt)) {
             echo '<script>Swal.fire("Éxito", "Estado actualizado correctamente", "success");</script>';
+            mysqli_stmt_close($stmt);
             return true;
         } else {
             echo '<script>Swal.fire("Error", "Error al actualizar: '.mysqli_error($cone).'", "error");</script>';
+            mysqli_stmt_close($stmt);
             return false;
         }
     }
@@ -39,9 +45,17 @@ class Consola {
     function buscarPorTipo($busqueda) {
         $c = new Conexion();
         $cone = $c->conectando();
-        $busqueda = mysqli_real_escape_string($cone, $busqueda);
-        $query = "SELECT * FROM consola WHERE tipo LIKE '%$busqueda%'";
-        $result = mysqli_query($cone, $query);
+        // Consulta preparada para evitar inyección SQL
+        $sql = "SELECT * FROM consola WHERE tipo LIKE ?";
+        $stmt = mysqli_prepare($cone, $sql);
+        if (!$stmt) {
+            return false;
+        }
+        $param = "%" . $busqueda . "%";
+        mysqli_stmt_bind_param($stmt, "s", $param);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        mysqli_stmt_close($stmt);
         return $result;
     }
     function actualizarEstado($idConsola, $estado) {

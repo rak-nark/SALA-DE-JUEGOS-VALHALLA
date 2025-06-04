@@ -22,13 +22,22 @@ $totalPaginas = ceil($totalRegistros / $maximoRegistros);
 // Procesar formularios
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(isset($_POST['modificar'])) {
-        $obj->id = $_POST['id'];
-        $obj->estado = $_POST['estado'];
-        $obj->modificarEstado();
+        // Validar que el id es numérico
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        $estado = isset($_POST['estado']) ? $_POST['estado'] : '';
+
+        // Opcional: validar que el estado sea uno permitido
+        $estadosValidos = ['disponible', 'no_disponible', 'mantenimiento'];
+        if ($id > 0 && in_array($estado, $estadosValidos)) {
+            $obj->id = $id;
+            $obj->estado = $estado;
+            $obj->modificarEstado(); // Este método debe usar prepared statements en el modelo
+        }
+
         header("Location: consola.php?pagina=$pagina");
         exit();
     }
-    
+
     if(isset($_POST['buscar']) && !empty($_POST['busqueda'])) {
         $resultados = $obj->buscarPorTipo($_POST['busqueda']);
     }
