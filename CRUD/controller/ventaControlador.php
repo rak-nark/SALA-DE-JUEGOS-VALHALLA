@@ -3,14 +3,18 @@ include('../model/ventaModelo.php');
 $obj = new venta();
 if($_POST){
 }
-if(isset($_POST['guarda'])){
-    if (empty($_POST['id_prestamo'])) {
+if (isset($_POST['guarda'])) {
+    // Validación segura
+    $id_prestamo = isset($_POST['id_prestamo']) ? trim($_POST['id_prestamo']) : null;
+    if (empty($id_prestamo)) {
+        // No mostrar datos ingresados por el usuario
         die("Error: El campo id_prestamo es obligatorio.");
     }
-    $obj->fecha = $_POST['fecha'];
-    $obj->monto = $_POST['monto'];
-    $obj->id_prestamo = !empty($_POST['id_prestamo']) ? $_POST['id_prestamo'] : null;
-    $obj->agregar();
+    $obj->fecha = isset($_POST['fecha']) ? $_POST['fecha'] : null;
+    $obj->monto = isset($_POST['monto']) ? $_POST['monto'] : null;
+    $obj->id_prestamo = $id_prestamo;
+
+    $obj->agregar(); // Debe usar consultas preparadas en el modelo
 }
 
 if(isset($_POST['modificar'])){

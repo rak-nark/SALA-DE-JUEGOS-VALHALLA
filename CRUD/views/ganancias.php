@@ -10,18 +10,21 @@ $c = new conexion();
 $cone = $c->conectando();
 
 // Variables para las fechas (inicializadas por defecto como vacías)
+// Variables para las fechas (inicializadas por defecto como vacías)
 $fecha_inicio = isset($_POST['fecha_inicio']) ? $_POST['fecha_inicio'] : '';
 $fecha_fin = isset($_POST['fecha_fin']) ? $_POST['fecha_fin'] : '';
 $ganancia_personalizada = 0;
 
 // Calcular ganancias si se enviaron fechas
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($fecha_inicio) && !empty($fecha_fin)) {
-    $sql = "SELECT SUM(monto) AS total 
-            FROM venta 
-            WHERE fecha BETWEEN '$fecha_inicio' AND '$fecha_fin'";
-    $resultado = mysqli_query($cone, $sql);
+    $sql = "SELECT SUM(monto) AS total FROM venta WHERE fecha BETWEEN ? AND ?";
+    $stmt = mysqli_prepare($cone, $sql);
+    mysqli_stmt_bind_param($stmt, "ss", $fecha_inicio, $fecha_fin);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
     $fila = mysqli_fetch_assoc($resultado);
     $ganancia_personalizada = $fila['total'] ?? 0;
+    mysqli_stmt_close($stmt);
 }
 ?>
 

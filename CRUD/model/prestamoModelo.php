@@ -9,41 +9,60 @@
 					public $id_consola;
                     
 					function agregar(){
-                                        $conet = new Conexion();
-                                        $c = $conet->conectando();
-                                        $query = "select * from prestamo where idPrestamo = '$this->idPrestamo'";
-                                        $ejecuta = mysqli_query($c, $query);
-                                        if(mysqli_fetch_array($ejecuta)){
-											echo '<script>	Swal.fire({
-												position: "top",
-												icon: "info",
-												title: "El Registro ya Existe en el Sistema",
-												showConfirmButton: false,
-												timer: 3000
-											});</script>';
-                                        }else{
-											
-                                        $insertar = "insert into prestamo values(
-																					'$this->idPrestamo',
-																					'$this->fecha',
-																					'$this->hora',
-																					'$this->tiempodeuso',
-																					'$this->reserva',
-																					'$this->id_cliente',
-																					'$this->id_consola'
-                                        )";
-                                        
-                                        mysqli_query($c,$insertar);
-                                        echo '<script>	Swal.fire({
-											position: "top",
-											icon: "success",
-											title: "El Registro Fue Almacenado en el Sistema",
-											showConfirmButton: false,
-											timer: 3000
-										});</script>';
-                                            
-                                        }
-                    }
+						$conet = new Conexion();
+						$c = $conet->conectando();
+
+						// Comprobar si ya existe el registro
+						$query = "SELECT * FROM prestamo WHERE idPrestamo = ?";
+						$stmt = mysqli_prepare($c, $query);
+						mysqli_stmt_bind_param($stmt, "s", $this->idPrestamo);
+						mysqli_stmt_execute($stmt);
+						$ejecuta = mysqli_stmt_get_result($stmt);
+
+						if(mysqli_fetch_array($ejecuta)){
+							echo '<script>Swal.fire({
+								position: "top",
+								icon: "info",
+								title: "El Registro ya Existe en el Sistema",
+								showConfirmButton: false,
+								timer: 3000
+							});</script>';
+						} else {
+							// Consulta preparada para el insert
+							$insertar = "INSERT INTO prestamo (idPrestamo, fecha, hora, tiempodeuso, reserva, id_cliente, id_consola) VALUES (?, ?, ?, ?, ?, ?, ?)";
+							$stmt_insert = mysqli_prepare($c, $insertar);
+							mysqli_stmt_bind_param(
+								$stmt_insert,
+								"sssssss",
+								$this->idPrestamo,
+								$this->fecha,
+								$this->hora,
+								$this->tiempodeuso,
+								$this->reserva,
+								$this->id_cliente,
+								$this->id_consola
+							);
+							if (mysqli_stmt_execute($stmt_insert)) {
+								echo '<script>Swal.fire({
+									position: "top",
+									icon: "success",
+									title: "El Registro Fue Almacenado en el Sistema",
+									showConfirmButton: false,
+									timer: 3000
+								});</script>';
+							} else {
+								echo '<script>Swal.fire({
+									position: "top",
+									icon: "error",
+									title: "Error al guardar el registro",
+									showConfirmButton: false,
+									timer: 3000
+								});</script>';
+							}
+							mysqli_stmt_close($stmt_insert);
+						}
+						mysqli_stmt_close($stmt);
+					}
                     function modificar(){
                                     $c = new Conexion();
 								    $cone = $c->conectando();

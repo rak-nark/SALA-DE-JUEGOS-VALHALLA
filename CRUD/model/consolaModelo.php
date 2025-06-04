@@ -16,30 +16,32 @@ class Consola {
     function modificarEstado() {
         $c = new Conexion();
         $cone = $c->conectando();
+        $resultado = false;
+        $mensaje = '';
         
         // Validaciones
         if(empty($this->id) || !in_array($this->estado, ['disponible', 'no_disponible', 'mantenimiento'])) {
-            echo '<script>Swal.fire("Error", "Datos inválidos para la actualización", "error");</script>';
-            return false;
-        }
-        
-        // Consulta preparada para evitar inyección SQL
-        $sql = "UPDATE consola SET estado = ? WHERE id = ?";
-        $stmt = mysqli_prepare($cone, $sql);
-        if (!$stmt) {
-            echo '<script>Swal.fire("Error", "Error en la preparación de la consulta", "error");</script>';
-            return false;
-        }
-        mysqli_stmt_bind_param($stmt, "si", $this->estado, $this->id);
-        if(mysqli_stmt_execute($stmt)) {
-            echo '<script>Swal.fire("Éxito", "Estado actualizado correctamente", "success");</script>';
-            mysqli_stmt_close($stmt);
-            return true;
+            $mensaje = '<script>Swal.fire("Error", "Datos inválidos para la actualización", "error");</script>';
         } else {
-            echo '<script>Swal.fire("Error", "Error al actualizar: '.mysqli_error($cone).'", "error");</script>';
-            mysqli_stmt_close($stmt);
-            return false;
+            // Consulta preparada
+            $sql = "UPDATE consola SET estado = ? WHERE id = ?";
+            $stmt = mysqli_prepare($cone, $sql);
+            
+            if ($stmt) {
+                mysqli_stmt_bind_param($stmt, "si", $this->estado, $this->id);
+                if (mysqli_stmt_execute($stmt)) {
+                    $mensaje = '<script>Swal.fire("Éxito", "Estado actualizado correctamente", "success");</script>';
+                    $resultado = true;
+                } else {
+                    $mensaje = '<script>Swal.fire("Error", "Error al actualizar: '.mysqli_error($cone).'", "error");</script>';
+                }
+                mysqli_stmt_close($stmt);
+            } else {
+                $mensaje = '<script>Swal.fire("Error", "Error en la preparación de la consulta", "error");</script>';
+            }
         }
+        echo $mensaje;
+        return $resultado;
     }
     
     function buscarPorTipo($busqueda) {

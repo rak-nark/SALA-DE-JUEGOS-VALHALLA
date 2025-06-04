@@ -5,12 +5,15 @@ if ($_POST) {
     // Aquí podrías agregar alguna lógica si es necesario
 }
 if (isset($_POST['guarda'])) {
-    $obj->fecha = $_POST['fecha'];
-    $obj->hora = $_POST['hora'];
-    $obj->tiempodeuso = $_POST['tiempodeuso'];
-    $obj->reserva = $_POST['reserva'];
-    $obj->id_cliente = $_POST['id_cliente'];
-    $obj->id_consola = $_POST['id_consola'];
+    // Validación básica (puedes expandir según tus reglas)
+    $obj->fecha = isset($_POST['fecha']) ? $_POST['fecha'] : null;
+    $obj->hora = isset($_POST['hora']) ? $_POST['hora'] : null;
+    $obj->tiempodeuso = isset($_POST['tiempodeuso']) ? $_POST['tiempodeuso'] : null;
+    $obj->reserva = isset($_POST['reserva']) ? $_POST['reserva'] : null;
+    $obj->id_cliente = isset($_POST['id_cliente']) ? $_POST['id_cliente'] : null;
+    $obj->id_consola = isset($_POST['id_consola']) ? $_POST['id_consola'] : null;
+
+    // El método agregar() debe usar consultas preparadas en el modelo
     $obj->agregar();
 }
 if (isset($_POST['modificar'])) {

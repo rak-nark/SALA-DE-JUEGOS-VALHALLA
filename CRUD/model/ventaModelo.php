@@ -6,38 +6,55 @@
                     public $idPrestamo;
                     
 					function agregar(){
-                                        $conet = new Conexion();
-                                        $c = $conet->conectando();
-                                        $query = "select * from venta where id = '$this->id'";
-                                        $ejecuta = mysqli_query($c, $query);
-                                        if(mysqli_fetch_array($ejecuta)){
-											echo '<script>	Swal.fire({
-												position: "top",
-												icon: "info",
-												title: "El Registro ya Existe en el Sistema",
-												showConfirmButton: false,
-												timer: 3000
-											});</script>';
-                                        }else{
-                                        $insertar = "insert into venta values(
-																					'$this->id',
-																					'$this->fecha',
-																					'$this->monto',
-                                                                                    '$this->id_prestamo'
-																					
-                                        )";
-                                        echo $insertar;
-                                        mysqli_query($c,$insertar);
-                                        echo '<script>	Swal.fire({
-											position: "top",
-											icon: "success",
-											title: "El Registro Fue Almacenado en el Sistema",
-											showConfirmButton: false,
-											timer: 3000
-										});</script>';
-                                            
-                                        }
-                    }
+						$conet = new Conexion();
+						$c = $conet->conectando();
+						// Usar consulta preparada para evitar inyección y no reflejar datos de usuario
+						$query = "SELECT * FROM venta WHERE id = ?";
+						$stmt = mysqli_prepare($c, $query);
+						mysqli_stmt_bind_param($stmt, "s", $this->id);
+						mysqli_stmt_execute($stmt);
+						$ejecuta = mysqli_stmt_get_result($stmt);
+
+						if(mysqli_fetch_array($ejecuta)){
+							echo '<script>Swal.fire({
+								position: "top",
+								icon: "info",
+								title: "El Registro ya Existe en el Sistema",
+								showConfirmButton: false,
+								timer: 3000
+							});</script>';
+						} else {
+							$insertar = "INSERT INTO venta (id, fecha, monto, id_prestamo) VALUES (?, ?, ?, ?)";
+							$stmt_insert = mysqli_prepare($c, $insertar);
+							mysqli_stmt_bind_param(
+								$stmt_insert,
+								"ssss",
+								$this->id,
+								$this->fecha,
+								$this->monto,
+								$this->id_prestamo
+							);
+							if (mysqli_stmt_execute($stmt_insert)) {
+								echo '<script>Swal.fire({
+									position: "top",
+									icon: "success",
+									title: "El Registro Fue Almacenado en el Sistema",
+									showConfirmButton: false,
+									timer: 3000
+								});</script>';
+							} else {
+								echo '<script>Swal.fire({
+									position: "top",
+									icon: "error",
+									title: "Error al almacenar el registro",
+									showConfirmButton: false,
+									timer: 3000
+								});</script>';
+							}
+							mysqli_stmt_close($stmt_insert);
+						}
+						mysqli_stmt_close($stmt);
+					}
                     function modificar(){
                                     $c = new Conexion();
 								    $cone = $c->conectando();
