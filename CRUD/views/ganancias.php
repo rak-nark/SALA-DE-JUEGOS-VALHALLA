@@ -10,16 +10,27 @@ $c = new conexion();
 $cone = $c->conectando();
 
 // Variables para las fechas (inicializadas por defecto como vacías)
-// Variables para las fechas (inicializadas por defecto como vacías)
 $fecha_inicio = isset($_POST['fecha_inicio']) ? $_POST['fecha_inicio'] : '';
 $fecha_fin = isset($_POST['fecha_fin']) ? $_POST['fecha_fin'] : '';
 $ganancia_personalizada = 0;
 
-// Calcular ganancias si se enviaron fechas
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($fecha_inicio) && !empty($fecha_fin)) {
+// Validar que las fechas sean realmente fechas válidas (YYYY-MM-DD)
+function es_fecha_valida($fecha) {
+    return preg_match('/^\d{4}-\d{2}-\d{2}$/', $fecha);
+}
+
+$fecha_inicio_valida = es_fecha_valida($fecha_inicio) ? $fecha_inicio : '';
+$fecha_fin_valida = es_fecha_valida($fecha_fin) ? $fecha_fin : '';
+
+// Calcular ganancias si se enviaron fechas válidas
+if (
+    $_SERVER['REQUEST_METHOD'] === 'POST' &&
+    !empty($fecha_inicio_valida) &&
+    !empty($fecha_fin_valida)
+) {
     $sql = "SELECT SUM(monto) AS total FROM venta WHERE fecha BETWEEN ? AND ?";
     $stmt = mysqli_prepare($cone, $sql);
-    mysqli_stmt_bind_param($stmt, "ss", $fecha_inicio, $fecha_fin);
+    mysqli_stmt_bind_param($stmt, "ss", $fecha_inicio_valida, $fecha_fin_valida);
     mysqli_stmt_execute($stmt);
     $resultado = mysqli_stmt_get_result($stmt);
     $fila = mysqli_fetch_assoc($resultado);
@@ -35,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($fecha_inicio) && !empty($fe
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta de Ganancias</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXhW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../configs/css/consola.css">
 </head>
@@ -59,11 +70,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($fecha_inicio) && !empty($fe
         <form method="POST" class="row g-3 align-items-end mb-4 animate__animated animate__fadeInUp">
           <div class="col-md-4">
             <label for="fecha_inicio" class="form-label">Fecha Inicio:</label>
-            <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="<?php echo $fecha_inicio; ?>" required>
+            <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control" value="<?php echo htmlspecialchars($fecha_inicio_valida, ENT_QUOTES, 'UTF-8'); ?>" required>
           </div>
           <div class="col-md-4">
             <label for="fecha_fin" class="form-label">Fecha Fin:</label>
-            <input type="date" name="fecha_fin" id="fecha_fin" class="form-control" value="<?php echo $fecha_fin; ?>" required>
+            <input type="date" name="fecha_fin" id="fecha_fin" class="form-control" value="<?php echo htmlspecialchars($fecha_fin_valida, ENT_QUOTES, 'UTF-8'); ?>" required>
           </div>
           <div class="col-md-4">
             <button type="submit" class="btn btn-success w-100"><i class="fas fa-chart-line me-2"></i>Consultar</button>
@@ -79,9 +90,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($fecha_inicio) && !empty($fe
               </tr>
             </thead>
             <tbody>
-              <?php if (!empty($fecha_inicio) && !empty($fecha_fin)): ?>
+              <?php if (!empty($fecha_inicio_valida) && !empty($fecha_fin_valida)): ?>
                 <tr>
-                  <td>Desde <?php echo $fecha_inicio; ?> hasta <?php echo $fecha_fin; ?></td>
+                  <td>
+                    Desde <?php echo htmlspecialchars($fecha_inicio_valida, ENT_QUOTES, 'UTF-8'); ?> 
+                    hasta <?php echo htmlspecialchars($fecha_fin_valida, ENT_QUOTES, 'UTF-8'); ?>
+                  </td>
                   <td><span class="fw-bold text-success">$<?php echo number_format($ganancia_personalizada, 2); ?></span></td>
                 </tr>
               <?php else: ?>
