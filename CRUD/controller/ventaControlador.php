@@ -77,15 +77,19 @@ if(empty($_GET['pagina'])){
 $desde = ($pagina-1)*$maximoRegistros;
 $totalPaginas=ceil($totalRegistros/$maximoRegistros);
 if(isset($_POST['buscar'])){
-    
-$obj->fecha = $_POST['fecha'];
-$sql2="select * from venta where fecha LIKE '%$obj->fecha%' limit $desde,$maximoRegistros ";
-$ejecuta=mysqli_query($c,$sql2);
-$res = mysqli_fetch_array($ejecuta);
+    $obj->fecha = $_POST['fecha'];
+    // Consulta preparada para evitar inyección SQL
+    $stmt = mysqli_prepare($c, "SELECT * FROM venta WHERE fecha LIKE ? LIMIT ?, ?");
+    $fecha_busqueda = '%' . $obj->fecha . '%';
+    mysqli_stmt_bind_param($stmt, 'sii', $fecha_busqueda, $desde, $maximoRegistros);
+    mysqli_stmt_execute($stmt);
+    $ejecuta = mysqli_stmt_get_result($stmt);
+    $res = mysqli_fetch_array($ejecuta);
+    mysqli_stmt_close($stmt);
 }else{
-        $sql2="select * from venta limit $desde,$maximoRegistros ";
-        $ejecuta=mysqli_query($c,$sql2);
-        $res = mysqli_fetch_array($ejecuta);
+    $sql2="select * from venta limit $desde,$maximoRegistros ";
+    $ejecuta=mysqli_query($c,$sql2);
+    $res = mysqli_fetch_array($ejecuta);
 }
 if(isset($_POST['listar'])){
 }

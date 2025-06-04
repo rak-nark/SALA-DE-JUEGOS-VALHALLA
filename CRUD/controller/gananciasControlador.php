@@ -22,16 +22,24 @@ $tarifas = [
 function calcular_ganancias($conexion, $fecha_inicio, $fecha_fin) {
     global $tarifas;
     
-    // Consulta para obtener el tiempo de uso y el tipo de consola
+    // Usar consulta preparada para evitar inyección SQL
     $query = "
         SELECT p.tiempodeuso, c.tipo 
         FROM prestamo p
         JOIN consola c ON p.id_consola = c.id
-        WHERE p.fecha BETWEEN '$fecha_inicio' AND '$fecha_fin'
+        WHERE p.fecha BETWEEN ? AND ?
           AND p.reserva = 1 
     ";
-    $resultado = mysqli_query($conexion, $query);
     
+    $stmt = mysqli_prepare($conexion, $query);
+    if ($stmt === false) {
+        // Manejar error
+        return 0;
+    }
+    mysqli_stmt_bind_param($stmt, 'ss', $fecha_inicio, $fecha_fin);
+    mysqli_stmt_execute($stmt);
+    $resultado = mysqli_stmt_get_result($stmt);
+
     $total = 0;
     while ($fila = mysqli_fetch_assoc($resultado)) {
         $tiempo = $fila['tiempodeuso'];
@@ -42,6 +50,7 @@ function calcular_ganancias($conexion, $fecha_inicio, $fecha_fin) {
             $total += $tarifas[$tipo_consola][$tiempo];
         }
     }
+    mysqli_stmt_close($stmt);
     return $total;
 }
 

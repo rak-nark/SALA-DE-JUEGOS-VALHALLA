@@ -84,9 +84,19 @@ $desde = ($pagina - 1) * $maximoRegistros;
 $totalPaginas = ceil($totalRegistros / $maximoRegistros);
 if (isset($_POST['buscar'])) {
     $obj->fecha = $_POST['fecha'];
-    $sql2 = "SELECT * FROM prestamo WHERE fecha LIKE '%$obj->fecha%' LIMIT $desde, $maximoRegistros";
-    $ejecuta = mysqli_query($c, $sql2);
+    // Usar consulta preparada para evitar inyección SQL
+    $stmt = mysqli_prepare(
+        $c,
+        "SELECT * FROM prestamo WHERE fecha LIKE ? LIMIT ?, ?"
+    );
+    // Preparar el parámetro de búsqueda
+    $fecha_busqueda = '%' . $obj->fecha . '%';
+    // bind_param: s = string, i = integer
+    mysqli_stmt_bind_param($stmt, 'sii', $fecha_busqueda, $desde, $maximoRegistros);
+    mysqli_stmt_execute($stmt);
+    $ejecuta = mysqli_stmt_get_result($stmt);
     $res = mysqli_fetch_array($ejecuta);
+    mysqli_stmt_close($stmt);
 } else {
     $sql2 = "SELECT * FROM prestamo LIMIT $desde, $maximoRegistros";
     $ejecuta = mysqli_query($c, $sql2);
