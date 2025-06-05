@@ -1,10 +1,10 @@
 <?php 
-include("../connection/conexion.php");
-include("../controller/prestamoControlador.php"); 
+include_once("../connection/conexion.php");
+include_once("../controller/prestamoControlador.php"); 
 
 //nav 
 $activePage = 'prestamo';
-include 'header.php';
+include_once 'header.php';
 
 
 $c = new conexion();

@@ -1,10 +1,10 @@
 <?php 
-include("../connection/conexion.php");
-include("../controller/gananciasControlador.php");
+include_once("../connection/conexion.php");
+include_once("../controller/gananciasControlador.php");
 
 //nav 
 $activePage = 'ganancias';
-include 'header.php';
+include_once 'header.php';
 
 $c = new conexion();
 $cone = $c->conectando();

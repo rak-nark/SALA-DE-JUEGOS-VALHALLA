@@ -1,10 +1,10 @@
 <?php 
-include ("../connection/conexion.php");
-include ("../controller/clienteControlador.php"); 
+include_once ("../connection/conexion.php");
+include_once ("../controller/clienteControlador.php"); 
 
 //nav 
 $activePage = 'home';
-include 'header.php';
+include_once 'header.php';
 ?>
 <?php 
 $c = new conexion();

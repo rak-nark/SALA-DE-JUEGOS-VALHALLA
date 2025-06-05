@@ -8,7 +8,7 @@ class prestamo {
 					public $id_cliente;
 					public $id_consola;
 
-					function agregar() {
+					public function agregar() {
 						$conet = new Conexion();
 						$c = $conet->conectando();
 						// Consulta preparada para evitar inyección SQL
@@ -63,7 +63,7 @@ class prestamo {
 						mysqli_stmt_close($stmt);
 					}
 
-					function modificar() {
+					public function modificar() {
 						$c = new Conexion();
 						$cone = $c->conectando();
 						// Consulta preparada para evitar inyección SQL (select)
@@ -124,7 +124,7 @@ class prestamo {
 						mysqli_stmt_close($stmt);
 					}
 
-					function eliminar(){
+					public function eliminar(){
 					$c = new Conexion();
 					$cone = $c->conectando();
 

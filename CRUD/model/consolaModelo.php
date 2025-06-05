@@ -5,7 +5,7 @@ class Consola {
     public $tipo;
     public $estado;
     
-    function listar() {
+    public function listar() {
         $c = new Conexion();
         $cone = $c->conectando();
         $query = "SELECT * FROM consola";
@@ -13,7 +13,7 @@ class Consola {
         return $result;
     }
     
-    function modificarEstado() {
+    public function modificarEstado() {
         $c = new Conexion();
         $cone = $c->conectando();
         $resultado = false;
@@ -44,7 +44,7 @@ class Consola {
         return $resultado;
     }
     
-    function buscarPorTipo($busqueda) {
+    public function buscarPorTipo($busqueda) {
         $c = new Conexion();
         $cone = $c->conectando();
         // Consulta preparada para evitar inyección SQL
@@ -60,7 +60,7 @@ class Consola {
         mysqli_stmt_close($stmt);
         return $result;
     }
-    function actualizarEstado($idConsola, $estado) {
+    public function actualizarEstado($idConsola, $estado) {
         $this->id = $idConsola;
         $this->estado = $estado;
         return $this->modificarEstado();

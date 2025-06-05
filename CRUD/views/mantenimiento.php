@@ -71,78 +71,75 @@ while ($row = mysqli_fetch_assoc($result_mantenimientos)) {
 }
 
 // Manejo de acciones (agregar, actualizar, cambiar estado)
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
-    
-    if ($action === 'agregar') {
-        $tipo = $_POST['tipo'];
-        $id_consola = (int)$_POST['id_consola'];
-        $descripcion = $_POST['descripcion'];
-        $fecha_programada = $_POST['fecha_programada'];
-        // CONSULTA PREPARADA para evitar inyección SQL
-        $sql = "INSERT INTO mantenimiento (tipo, id_consola, descripcion, fecha_programada, estado, created_at) 
-                VALUES (?, ?, ?, ?, 'pendiente', NOW())";
-        $stmt = mysqli_prepare($cone, $sql);
-        mysqli_stmt_bind_param($stmt, "siss", $tipo, $id_consola, $descripcion, $fecha_programada);
-        if (mysqli_stmt_execute($stmt)) {
-            $success = "Mantenimiento agregado exitosamente.";
-        } else {
-            $error = "Error al agregar mantenimiento: " . mysqli_error($cone);
-        }
-        mysqli_stmt_close($stmt);
-    } elseif ($action === 'actualizar') {
-        $id = (int)$_POST['id'];
-        $tipo = $_POST['tipo'];
-        $id_consola = (int)$_POST['id_consola'];
-        $descripcion = $_POST['descripcion'];
-        $fecha_programada = $_POST['fecha_programada'];
-        // CONSULTA PREPARADA para evitar inyección SQL
-        $sql = "UPDATE mantenimiento SET tipo=?, id_consola=?, descripcion=?, fecha_programada=? WHERE id=?";
-        $stmt = mysqli_prepare($cone, $sql);
-        mysqli_stmt_bind_param($stmt, "sissi", $tipo, $id_consola, $descripcion, $fecha_programada, $id);
-        if (mysqli_stmt_execute($stmt)) {
-            $success = "Mantenimiento actualizado exitosamente.";
-        } else {
-            $error = "Error al actualizar mantenimiento: " . mysqli_error($cone);
-        }
-        mysqli_stmt_close($stmt);
-    } elseif ($action === 'cambiar_estado') {
-        $id = (int)$_POST['id'];
-        $estado = $_POST['estado'];
-        $update = "";
-        $params = [];
-        $types = "";
-        if ($estado === 'iniciar') {
-            $update = "estado=?, fecha_inicio=NOW()";
-            $params = ['en_proceso', $id];
-            $types = "si";
-        } elseif ($estado === 'completar') {
-            $update = "estado=?, fecha_fin=NOW()";
-            $params = ['completado', $id];
-            $types = "si";
-        } elseif ($estado === 'cancelar') {
-            $update = "estado=?";
-            $params = ['cancelado', $id];
-            $types = "si";
-        }
-        if ($update) {
-            $sql = "UPDATE mantenimiento SET $update WHERE id=?";
+
+    switch ($action) {
+        case 'agregar':
+            $tipo = $_POST['tipo'];
+            $id_consola = (int)$_POST['id_consola'];
+            $descripcion = $_POST['descripcion'];
+            $fecha_programada = $_POST['fecha_programada'];
+            // CONSULTA PREPARADA para evitar inyección SQL
+            $sql = "INSERT INTO mantenimiento (tipo, id_consola, descripcion, fecha_programada, estado, created_at) 
+                    VALUES (?, ?, ?, ?, 'pendiente', NOW())";
             $stmt = mysqli_prepare($cone, $sql);
-            if (strpos($update, 'NOW()') !== false) {
-                // Si hay NOW(), solo el primer valor es bindable, el resto es función SQL.
-                mysqli_stmt_bind_param($stmt, "si", $params[0], $params[1]);
-            } else {
-                mysqli_stmt_bind_param($stmt, "si", $params[0], $params[1]);
-            }
+            mysqli_stmt_bind_param($stmt, "siss", $tipo, $id_consola, $descripcion, $fecha_programada);
             if (mysqli_stmt_execute($stmt)) {
-                $success = "Estado cambiado exitosamente.";
+                $success = "Mantenimiento agregado exitosamente.";
             } else {
-                $error = "Error al cambiar estado: " . mysqli_error($cone);
+                $error = "Error al agregar mantenimiento: " . mysqli_error($cone);
             }
             mysqli_stmt_close($stmt);
-        }
+            break;
+
+        case 'actualizar':
+            $id = (int)$_POST['id'];
+            $tipo = $_POST['tipo'];
+            $id_consola = (int)$_POST['id_consola'];
+            $descripcion = $_POST['descripcion'];
+            $fecha_programada = $_POST['fecha_programada'];
+            // CONSULTA PREPARADA para evitar inyección SQL
+            $sql = "UPDATE mantenimiento SET tipo=?, id_consola=?, descripcion=?, fecha_programada=? WHERE id=?";
+            $stmt = mysqli_prepare($cone, $sql);
+            mysqli_stmt_bind_param($stmt, "sissi", $tipo, $id_consola, $descripcion, $fecha_programada, $id);
+            if (mysqli_stmt_execute($stmt)) {
+                $success = "Mantenimiento actualizado exitosamente.";
+            } else {
+                $error = "Error al actualizar mantenimiento: " . mysqli_error($cone);
+            }
+            mysqli_stmt_close($stmt);
+            break;
+
+        case 'cambiar_estado':
+            $id = (int)$_POST['id'];
+            $estado = $_POST['estado'];
+            if ($estado === 'iniciar') {
+                $update = "UPDATE mantenimiento SET estado=?, fecha_inicio=NOW() WHERE id=?";
+                $params = ['en_proceso', $id];
+            } elseif ($estado === 'completar') {
+                $update = "UPDATE mantenimiento SET estado=?, fecha_fin=NOW() WHERE id=?";
+                $params = ['completado', $id];
+            } elseif ($estado === 'cancelar') {
+                $update = "UPDATE mantenimiento SET estado=? WHERE id=?";
+                $params = ['cancelado', $id];
+            } else {
+                $update = null;
+            }
+
+            if ($update) {
+                $stmt = mysqli_prepare($cone, $update);
+                mysqli_stmt_bind_param($stmt, "si", $params[0], $params[1]);
+                if (mysqli_stmt_execute($stmt)) {
+                    $success = "Estado cambiado exitosamente.";
+                } else {
+                    $error = "Error al cambiar estado: " . mysqli_error($cone);
+                }
+                mysqli_stmt_close($stmt);
+            }
+            break;
     }
+
     // Refrescar datos después de una acción
     $result_mantenimientos = mysqli_query($cone, $sql_mantenimientos);
     $mantenimientos = [];

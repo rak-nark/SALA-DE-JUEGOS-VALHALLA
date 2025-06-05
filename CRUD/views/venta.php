@@ -1,10 +1,10 @@
 <?php 
-include("../connection/conexion.php");
-include("../controller/ventaControlador.php");
+include_once("../connection/conexion.php");
+include_once("../controller/ventaControlador.php");
 
 //nav 
 $activePage = 'venta';
-include 'header.php';
+include_once 'header.php';
 
 $c = new conexion();
 $cone = $c->conectando();

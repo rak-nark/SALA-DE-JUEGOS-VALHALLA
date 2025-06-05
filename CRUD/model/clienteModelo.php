@@ -9,7 +9,7 @@ class cliente {
     public $rol;
 
     // Método para agregar un nuevo cliente
-    function agregar() {
+    public function agregar() {
         $conet = new Conexion();                   // Crear nueva conexión
         $c = $conet->conectando();                 // Conectarse a la base de datos
 
@@ -54,7 +54,7 @@ class cliente {
     }
 
     // Método para modificar un cliente existente
-    function modificar() {
+    public function modificar() {
         $c = new Conexion();                       // Crear nueva conexión
         $cone = $c->conectando();                  // Conectarse a la base de datos
 
@@ -126,7 +126,7 @@ class cliente {
     }
 
     // Método para eliminar un cliente
-    function eliminar() {
+    public function eliminar() {
         $c = new Conexion();
         $cone = $c->conectando();
         

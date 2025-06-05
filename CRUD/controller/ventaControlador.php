@@ -1,5 +1,5 @@
 <?php
-include('../model/ventaModelo.php');
+include_once('../model/ventaModelo.php');
 $obj = new venta();
 if($_POST){
 }

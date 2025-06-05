@@ -1,6 +1,6 @@
 <?php
-include '../model/mantenimientoModelo.php';
-include '../model/consolaModelo.php';
+include_once '../model/mantenimientoModelo.php';
+include_once '../model/consolaModelo.php';
 
 class MantenimientoController {
     private $mantenimientoModel;
@@ -150,7 +150,7 @@ class MantenimientoController {
         ];
 
         extract($data);
-       // include '../views/mantenimiento.php';
+       // include_once '../views/mantenimiento.php';
     }
 
     private function validateFields($fields) {

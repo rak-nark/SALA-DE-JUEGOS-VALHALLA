@@ -1,5 +1,5 @@
 <?php
-include('../model/prestamoModelo.php');
+include_once('../model/prestamoModelo.php');
 $obj = new prestamo();
 if ($_POST) {
     // Aquí podrías agregar alguna lógica si es necesario

@@ -6,7 +6,7 @@
                     public $idPrestamo;
                     
 
-								function agregar() {
+								public function agregar() {
 									$conet = new Conexion();
 									$c = $conet->conectando();
 
@@ -58,7 +58,7 @@
 									mysqli_stmt_close($stmt);
 								}
 
-								function modificar() {
+								public function modificar() {
 									$c = new Conexion();
 									$cone = $c->conectando();
 
@@ -111,7 +111,7 @@
 									mysqli_stmt_close($stmt);
 								}
 
-								function eliminar(){
+								public function eliminar(){
 								try {   
 									$c = new Conexion();
 									$cone = $c->conectando();
@@ -149,21 +149,21 @@
 							}
 
 
-								function obtenerVentasDiarias($fecha) {
+								public function obtenerVentasDiarias($fecha) {
 									$sql = "SELECT * FROM ventas WHERE DATE(fecha) = ?";
 									$stmt = $this->db->prepare($sql);
 									$stmt->execute([$fecha]);
 									return $stmt->fetchAll(PDO::FETCH_ASSOC);
 								}
 
-								function obtenerVentasMensuales($mes, $anio) {
+								public function obtenerVentasMensuales($mes, $anio) {
 									$sql = "SELECT * FROM ventas WHERE MONTH(fecha) = ? AND YEAR(fecha) = ?";
 									$stmt = $this->db->prepare($sql);
 									$stmt->execute([$mes, $anio]);
 									return $stmt->fetchAll(PDO::FETCH_ASSOC);
 								}
 
-								function obtenerVentasSemestrales($semestre, $anio) {
+								public function obtenerVentasSemestrales($semestre, $anio) {
 									$rango = ($semestre == 1) ? [1, 6] : [7, 12];
 									$sql = "SELECT * FROM ventas WHERE MONTH(fecha) BETWEEN ? AND ? AND YEAR(fecha) = ?";
 									$stmt = $this->db->prepare($sql);

@@ -1,5 +1,5 @@
 <?php
-include('../connection/conexion.php');
+include_once('../connection/conexion.php');
 session_start();
 if (isset($_POST['Ingresar'])) {
     $correoCliente = $_POST['correoCliente'];

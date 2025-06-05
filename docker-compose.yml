@@ -30,7 +30,7 @@ services:
       - valhalla_net
 
   crud:
-    image: raknark/sdj-crud:latest
+    build: ./CRUD
     container_name: crud-php
     ports:
       - "8080:80"

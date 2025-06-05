@@ -1,5 +1,5 @@
 <?php
-include('../model/clienteModelo.php');
+include_once('../model/clienteModelo.php');
 $obj = new cliente();
 
 if ($_POST) {

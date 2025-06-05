@@ -1,10 +1,10 @@
 <?php 
-include ("../connection/conexion.php");
-include ("../controller/consolaControlador.php");
+include_once ("../connection/conexion.php");
+include_once ("../controller/consolaControlador.php");
 
 //nav 
 $activePage = 'consola';
-include 'header.php';
+include_once 'header.php';
 
 $obj = new Consola();
 $resultados = $obj->listar();
