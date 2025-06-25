@@ -1,0 +1,76 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark barNav">
+    <div class="container-fluid">
+        <!-- Logo o nombre de la marca -->
+        <a class="navbar-brand" href="#">
+            <span class="gamezone-logo">GameZone</span>
+        </a>
+        <!-- Botón para dispositivos móviles -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Contenido del navbar -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- Enlace a Home -->
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/home']" routerLinkActive="active">Home</a>
+                </li>
+                <!-- Enlace a Perfil -->
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/perfil']" routerLinkActive="active">Mi Perfil</a>
+                </li>
+                <!-- Enlace a Reservar Consola -->
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/reserva']" routerLinkActive="active">Reservar Consola</a>
+                </li>
+                <!-- Enlace a Mis Reservas -->
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/mis-reservas']" routerLinkActive="active">Mis Reservas</a>
+                </li>
+            </ul>
+            <!-- Botón de Cerrar Sesión -->
+            <button class="btn btn-outline-danger" (click)="logout()">Cerrar Sesión</button>
+        </div>
+    </div>
+</nav>
+<div class="container my-5">
+    <div class="card shadow-lg border-0">
+        <!-- Encabezado -->
+        <div class="card-header bg-primary text-white text-center py-4">
+            <h3 class="mb-0">Mi Perfil</h3>
+        </div>
+        <!-- Cuerpo de la tarjeta -->
+        <div class="card-body p-4">
+            <!-- Información básica -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h5 class="text-muted">Información Personal</h5>
+                    <form (ngSubmit)="guardarCambios()">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" id="nombre" class="form-control" [(ngModel)]="cliente.nombreCliente" name="nombre" placeholder="Tu nombre completo" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" id="apellido" class="form-control" [(ngModel)]="cliente.apellidoCliente" name="apellido" placeholder="Tu apellido" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <input type="email" id="email" class="form-control" [(ngModel)]="cliente.correoCliente" name="email" placeholder="Tu correo electrónico" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="contrasena" class="form-label">Contraseña</label>
+                            <input type="password" id="contrasena" class="form-control" [(ngModel)]="cliente.contrasenaCliente" name="contrasena" placeholder="Tu contraseña" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </form>
+                    <!-- Botón de Eliminar Cuenta -->
+                    <div class="mt-4">
+                        <button class="btn btn-outline-danger btn-sm" (click)="confirmarEliminarCuenta()">Eliminar Cuenta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
