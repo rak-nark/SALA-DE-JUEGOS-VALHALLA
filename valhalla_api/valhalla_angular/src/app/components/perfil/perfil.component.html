@@ -1,0 +1,95 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark barNav">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <span class="gamezone-logo">GameZone</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/home']"
+                        routerLinkActive="active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/perfil']"
+                        routerLinkActive="active">Mi Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/reserva']"
+                        routerLinkActive="active">Reservar Consola</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/mis-reservas']"
+                        routerLinkActive="active">Mis Reservas</a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-danger" (click)="logout()">Cerrar
+                Sesión</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container my-5">
+    <div class="card shadow-lg border-0">
+      <div class="card-header bg-primary text-white text-center py-4">
+        <h3 class="mb-0">Mi Perfil</h3>
+      </div>
+  
+      <div class="card-body p-4">
+        <div class="row">
+          <div class="col-md-4 text-center">
+            <img src="https://via.placeholder.com/150" alt="Foto de perfil" class="rounded-circle img-thumbnail mb-3" />
+            <br>
+            <button class="btn btn-outline-primary btn-sm mt-2">Cambiar Foto</button>
+          </div>
+  
+          <div class="col-md-8">
+            <h5 class="text-muted">Información Personal</h5>
+            <form [formGroup]="form" (ngSubmit)="modificar()">
+              <div class="mb-3">
+                <label for="nombreCliente" class="form-label">Nombre</label>
+                <input type="text" id="nombreCliente" class="form-control" formControlName="nombreCliente" required />
+                <div *ngIf="form.get('nombreCliente')?.invalid && form.get('nombreCliente')?.touched" class="text-danger">
+                  El nombre es obligatorio y debe tener al menos 2 caracteres.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="apellidoCliente" class="form-label">Apellido</label>
+                <input type="text" id="apellidoCliente" class="form-control" formControlName="apellidoCliente" required />
+                <div *ngIf="form.get('apellidoCliente')?.invalid && form.get('apellidoCliente')?.touched" class="text-danger">
+                  El apellido es obligatorio y debe tener al menos 2 caracteres.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="correoCliente" class="form-label">Correo Electrónico</label>
+                <input type="email" id="correoCliente" class="form-control" formControlName="correoCliente" required />
+                <div *ngIf="form.get('correoCliente')?.invalid && form.get('correoCliente')?.touched" class="text-danger">
+                  El correo electrónico es obligatorio y debe ser válido.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="contrasenaCliente" class="form-label">Contraseña</label>
+                <input type="password" id="contrasenaCliente" class="form-control" formControlName="contrasenaCliente" required />
+                <div *ngIf="form.get('contrasenaCliente')?.invalid && form.get('contrasenaCliente')?.touched" class="text-danger">
+                  La contraseña es obligatoria y debe tener al menos 8 caracteres.
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Guardar Cambios</button>
+            </form>
+  
+            <div class="mt-4">
+              <button class="btn btn-outline-danger btn-sm" (click)="confirmarEliminarCuenta()">
+                Eliminar Cuenta
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
