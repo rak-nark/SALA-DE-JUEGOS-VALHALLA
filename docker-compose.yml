@@ -1,7 +1,7 @@
 
 services:
   frontend:
-    image: raknark/sdj-frontend:latest
+    build: ./FRONTEND/valhalla_angular
     container_name: frontend-angular
     ports:
       - "4200:4200"
@@ -12,7 +12,7 @@ services:
       - valhalla_net
 
   backend:
-    image: raknark/sdj-backend:latest
+    build: ./BACKEND/valhalla_laravel
     container_name: sdj-backend
     ports:
       - "8000:8000"
@@ -47,7 +47,7 @@ services:
     networks:
       - valhalla_net
   db:
-    image: raknark/sdj-db:latest
+    build: ./DB
     container_name: mysql-db
     restart: always
     environment:
