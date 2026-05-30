@@ -1,6 +1,14 @@
+import { useNavigate } from "react-router-dom";
+import { authService } from "../../../services/authService";
 import { consoles } from "../homeData";
 
 export const ConsoleSection = () => {
+  const navigate = useNavigate();
+
+  const handleReserveClick = () => {
+    navigate(authService.isAuthenticated() ? "/reservation" : "/login");
+  };
+
   return (
     <section className="mx-auto max-w-container-max-width px-margin-mobile py-24 md:px-margin-desktop">
       <div className="mb-12 flex items-end justify-between">
@@ -41,6 +49,7 @@ export const ConsoleSection = () => {
               <button
                 className="w-full rounded-lg border border-outline-variant py-3 font-bold transition-all group-hover:bg-secondary group-hover:text-black active:scale-95"
                 type="button"
+                onClick={handleReserveClick}
               >
                 Reservar ahora
               </button>

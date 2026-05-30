@@ -2,6 +2,11 @@ const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 const CLIENTE_STORAGE_KEY = "cliente:v1";
 const LEGACY_CLIENTE_STORAGE_KEY = "cliente";
+const AUTH_CHANGE_EVENT = "auth:changed";
+
+const notifyAuthChange = () => {
+  window.dispatchEvent(new Event(AUTH_CHANGE_EVENT));
+};
 
 export const authService = {
   async login(correoCliente, contrasenaCliente) {
@@ -37,6 +42,7 @@ export const authService = {
 
       localStorage.setItem(CLIENTE_STORAGE_KEY, JSON.stringify(data.cliente));
       localStorage.setItem("token", data.token);
+      notifyAuthChange();
       return data;
     } catch (error) {
       console.error("Login error:", error);
@@ -130,6 +136,7 @@ export const authService = {
     localStorage.removeItem(CLIENTE_STORAGE_KEY);
     localStorage.removeItem(LEGACY_CLIENTE_STORAGE_KEY);
     localStorage.removeItem("token");
+    notifyAuthChange();
   },
 
   getCurrentCliente() {

@@ -1,16 +1,29 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-
-const navItems = [
-  { label: "Home", path: "/" },
-  { label: "Mi Perfil", path: "/profile" },
-  { label: "Reservar Consola", path: "/reservation" },
-  { label: "Mis Reservas", path: "/my-bookings" },
-];
+import { authService } from "../services/authService";
+import { useAuthStatus } from "../hooks/useAuthStatus";
 
 export const Header = () => {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
+  const isAuthenticated = useAuthStatus();
+
+  const navItems = [
+    { label: "Home", path: "/" },
+    ...(isAuthenticated ? [{ label: "Mi Perfil", path: "/profile" }] : []),
+    { label: "Reservar Consola", path: "/reservation" },
+    ...(isAuthenticated
+      ? [{ label: "Mis Reservas", path: "/my-bookings" }]
+      : []),
+  ];
+
+  const handleSessionButtonClick = () => {
+    if (isAuthenticated) {
+      authService.logout();
+    }
+
+    navigate("/login");
+  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -56,9 +69,9 @@ export const Header = () => {
         <button
           className="rounded-lg bg-primary-container px-5 py-2 font-bold text-white transition-transform hover:scale-105 active:scale-95 md:px-6 neon-glow"
           type="button"
-          onClick={() => navigate("/login")}
+          onClick={handleSessionButtonClick}
         >
-          Cerrar sesión
+          {isAuthenticated ? "Cerrar sesión" : "Iniciar sesión"}
         </button>
       </nav>
     </header>

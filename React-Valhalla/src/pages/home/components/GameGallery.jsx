@@ -1,10 +1,13 @@
-import { galleryImages } from '../homeData'
+import { galleryImages } from "../homeData";
 
 export const GameGallery = () => {
-  const loopingImages = galleryImages.flatMap((item) => [
-    { ...item, loopKey: `${item.id}-primary` },
-    { ...item, loopKey: `${item.id}-duplicate` },
-  ])
+  // Duplica todo el array para el efecto infinito
+  const loopingImages = [...galleryImages, ...galleryImages].map(
+    (item, index) => ({
+      ...item,
+      loopKey: `${item.id}-${index}`,
+    }),
+  );
 
   return (
     <section className="overflow-hidden bg-surface-container-lowest py-24">
@@ -20,7 +23,7 @@ export const GameGallery = () => {
           {loopingImages.map((item) => (
             <figure
               key={item.loopKey}
-              className="glass-panel group h-100 w-75 shrink-0 overflow-hidden rounded-xl"
+              className="glass-panel group h-150 w-200 shrink-0 overflow-hidden rounded-xl"
             >
               <img
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -32,5 +35,5 @@ export const GameGallery = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};

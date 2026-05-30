@@ -1,7 +1,16 @@
+import { useNavigate } from "react-router-dom";
+import { authService } from "../../../services/authService";
+
 const heroImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCRLuT5N9nAPvaXA8XwcxrV_GGxNHIKLHqdbId2da-j-BQzf2yEhPj82WfVc1xPYukdlVuWXWNzcPjvnJyD8ZCPb9xrFWZmar_EEOAATq_Zxp8VqEZ9ACPTh6ivOdlA8UkycapuBZJs9mySn3azTH_PnqpQE9AZKR8u6j3TSBdJ5cbstjsjLRSno-v--Y17kFmer8w6lIchb52s9-ZbTHVn239BOp1rGkv25pN_F5wVg8w2cgz4z7_ts8dPEZekyggbfrZcg6imNVvL";
 
 export const HeroSection = () => {
+  const navigate = useNavigate();
+
+  const handleReserveClick = () => {
+    navigate(authService.isAuthenticated() ? "/reservation" : "/login");
+  };
+
   return (
     <section id="home" className="relative h-217.5 w-full overflow-hidden">
       <div className="absolute inset-0 z-0">
@@ -31,17 +40,12 @@ export const HeroSection = () => {
           <button
             className="group flex items-center justify-center gap-2 rounded-xl bg-primary-container px-8 py-4 text-lg font-bold text-white transition-transform hover:scale-105 active:scale-95 neon-glow"
             type="button"
+            onClick={handleReserveClick}
           >
             Reserva tu consola ahora
             <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">
               arrow_forward
             </span>
-          </button>
-          <button
-            className="rounded-xl border border-secondary px-8 py-4 text-lg font-bold text-secondary transition-colors hover:bg-secondary/10 active:scale-95"
-            type="button"
-          >
-            Explorar más
           </button>
         </div>
       </div>

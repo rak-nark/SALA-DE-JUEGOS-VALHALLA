@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthInput } from "./components/AuthInput";
 import { AuthShell } from "./components/AuthShell";
 import { authService } from "../../services/authService";
+import { sanitizeLoginForm } from "../../utils/authSecurity";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -26,11 +27,14 @@ export const Login = () => {
     setLoading(true);
 
     try {
-      // Llamada al servicio de autenticación
-      // El servicio ya mapea email -> correoCliente y password -> contrasenaCliente
-      const data = await authService.login(form.email, form.password);
+      const sanitized = sanitizeLoginForm(form);
+      if (sanitized.error) {
+        setError(sanitized.error);
+        return;
+      }
+
+      const data = await authService.login(sanitized.email, sanitized.password);
       console.log("Login exitoso:", data);
-      // Redirigir al dashboard o página principal
       navigate("/");
     } catch (err) {
       setError(err.message || "Credenciales incorrectas");

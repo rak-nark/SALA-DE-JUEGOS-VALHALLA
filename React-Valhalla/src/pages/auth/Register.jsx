@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthInput } from "./components/AuthInput";
 import { AuthShell } from "./components/AuthShell";
 import { authService } from "../../services/authService"; // Reutilizamos authService, pero añadiremos register
+import { sanitizeRegisterForm } from "../../utils/authSecurity";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -28,14 +29,18 @@ export const Register = () => {
     setLoading(true);
 
     try {
-      // Llamar al servicio de registro (lo añadiremos en authService)
+      const sanitized = sanitizeRegisterForm(form);
+      if (sanitized.error) {
+        setError(sanitized.error);
+        return;
+      }
+
       await authService.register({
-        nombreCliente: form.firstName,
-        apellidoCliente: form.lastName,
-        correoCliente: form.email,
-        contrasenaCliente: form.password,
+        nombreCliente: sanitized.firstName,
+        apellidoCliente: sanitized.lastName,
+        correoCliente: sanitized.email,
+        contrasenaCliente: sanitized.password,
       });
-      // Registro exitoso, redirigir al login (o directamente loguear)
       navigate("/login");
     } catch (err) {
       setError(err.message || "Error al registrar usuario");

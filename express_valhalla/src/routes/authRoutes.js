@@ -1,27 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { body } = require("express-validator");
 const authController = require("../controllers/authController");
-
-// Validaciones
-const registerValidation = [
-  body("nombreCliente")
-    .notEmpty()
-    .withMessage("El nombre es obligatorio")
-    .isLength({ min: 2 }),
-  body("apellidoCliente")
-    .notEmpty()
-    .withMessage("El apellido es obligatorio")
-    .isLength({ min: 2 }),
-  body("correoCliente").isEmail().withMessage("Correo inválido"),
-  body("contrasenaCliente")
-    .isLength({ min: 8 })
-    .withMessage("Mínimo 8 caracteres"),
-];
-const loginValidation = [
-  body("correoCliente").isEmail(),
-  body("contrasenaCliente").notEmpty(),
-];
+const {
+  loginValidation,
+  registerValidation,
+} = require("../utils/authValidation");
 
 router.get("/cliente", authController.index);
 router.get("/cliente/:id", authController.show);
