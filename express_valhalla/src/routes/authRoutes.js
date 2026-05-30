@@ -8,6 +8,7 @@ const {
 
 router.get("/cliente", authController.index);
 router.get("/cliente/:id", authController.show);
+router.get("/cliente/:id/estadisticas", authController.showStats);
 router.post("/register", registerValidation, authController.register);
 router.post("/login", loginValidation, authController.login);
 router.put("/cliente/:id", authController.update);

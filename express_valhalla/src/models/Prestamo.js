@@ -23,6 +23,24 @@ const Prestamo = {
     );
     return rows;
   },
+  // Estadísticas de reservas de un cliente
+  getStatsByCliente: async (idCliente) => {
+    const [rows] = await db.query(
+      `SELECT
+         COUNT(*) AS totalReservations,
+         COALESCE(SUM(tiempodeuso), 0) AS totalMinutes
+       FROM prestamo
+       WHERE id_cliente = ?`,
+      [idCliente],
+    );
+
+    const result = rows[0] || { totalReservations: 0, totalMinutes: 0 };
+
+    return {
+      totalReservations: Number(result.totalReservations) || 0,
+      totalMinutes: Number(result.totalMinutes) || 0,
+    };
+  },
   // Contar reservas de un cliente en una fecha específica
   countByClienteAndFecha: async (idCliente, fecha) => {
     const [rows] = await db.query(

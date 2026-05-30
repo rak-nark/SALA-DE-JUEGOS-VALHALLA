@@ -2,10 +2,29 @@ const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 const CLIENTE_STORAGE_KEY = "cliente:v1";
 const LEGACY_CLIENTE_STORAGE_KEY = "cliente";
+const PROFILE_ICON_STORAGE_PREFIX = "profile-icon:v1:";
 const AUTH_CHANGE_EVENT = "auth:changed";
 
 const notifyAuthChange = () => {
   window.dispatchEvent(new Event(AUTH_CHANGE_EVENT));
+};
+
+const getProfileIconStorageKey = (clienteId) =>
+  `${PROFILE_ICON_STORAGE_PREFIX}${clienteId}`;
+
+const hydrateClienteProfileIcon = (cliente) => {
+  if (!cliente?.idCliente) {
+    return cliente;
+  }
+
+  const storedIcon = localStorage.getItem(
+    getProfileIconStorageKey(cliente.idCliente),
+  );
+
+  return {
+    ...cliente,
+    profileIcon: cliente.profileIcon || storedIcon || "",
+  };
 };
 
 export const authService = {
@@ -40,7 +59,10 @@ export const authService = {
         throw new Error("Respuesta del servidor inválida");
       }
 
-      localStorage.setItem(CLIENTE_STORAGE_KEY, JSON.stringify(data.cliente));
+      localStorage.setItem(
+        CLIENTE_STORAGE_KEY,
+        JSON.stringify(hydrateClienteProfileIcon(data.cliente)),
+      );
       localStorage.setItem("token", data.token);
       notifyAuthChange();
       return data;
@@ -101,6 +123,28 @@ export const authService = {
     }
   },
 
+  async getClientStatsById(id) {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/cliente/${id}/estadisticas`,
+      );
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data?.message ||
+            data?.error ||
+            "No se pudieron obtener las estadísticas",
+        );
+      }
+
+      return data.stats;
+    } catch (error) {
+      console.error("Get client stats error:", error);
+      throw error;
+    }
+  },
+
   async updateClient(id, userData) {
     try {
       const response = await fetch(`${API_BASE_URL}/cliente/${id}`, {
@@ -139,6 +183,48 @@ export const authService = {
     notifyAuthChange();
   },
 
+  setProfileIcon(profileIcon) {
+    const currentCliente = this.getCurrentCliente();
+
+    if (!currentCliente?.idCliente) {
+      return null;
+    }
+
+    const normalizedIcon = profileIcon ? String(profileIcon).trim() : "";
+
+    if (normalizedIcon) {
+      localStorage.setItem(
+        getProfileIconStorageKey(currentCliente.idCliente),
+        normalizedIcon,
+      );
+    } else {
+      localStorage.removeItem(
+        getProfileIconStorageKey(currentCliente.idCliente),
+      );
+    }
+
+    const updatedCliente = {
+      ...currentCliente,
+      profileIcon: normalizedIcon,
+    };
+
+    localStorage.setItem(CLIENTE_STORAGE_KEY, JSON.stringify(updatedCliente));
+    return normalizedIcon;
+  },
+
+  getProfileIcon(clienteId = this.getCurrentClienteId()) {
+    if (!clienteId) {
+      return "";
+    }
+
+    const currentCliente = this.getCurrentCliente();
+    if (currentCliente?.idCliente === clienteId && currentCliente.profileIcon) {
+      return currentCliente.profileIcon;
+    }
+
+    return localStorage.getItem(getProfileIconStorageKey(clienteId)) || "";
+  },
+
   getCurrentCliente() {
     const currentCliente = localStorage.getItem(CLIENTE_STORAGE_KEY);
     if (currentCliente) {
@@ -158,7 +244,7 @@ export const authService = {
       const parsedLegacyCliente = JSON.parse(legacyCliente);
       localStorage.setItem(
         CLIENTE_STORAGE_KEY,
-        JSON.stringify(parsedLegacyCliente),
+        JSON.stringify(hydrateClienteProfileIcon(parsedLegacyCliente)),
       );
       localStorage.removeItem(LEGACY_CLIENTE_STORAGE_KEY);
       return parsedLegacyCliente;

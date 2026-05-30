@@ -8,7 +8,10 @@ import { ProfileHero } from "./components/ProfileHero";
 import { ProfileStats } from "./components/ProfileStats";
 import { profileData } from "./profileData";
 
-const buildProfileState = (currentCliente = null) => ({
+const buildProfileState = (
+  currentCliente = null,
+  stats = profileData.stats,
+) => ({
   ...profileData,
   username:
     [currentCliente?.nombreCliente, currentCliente?.apellidoCliente]
@@ -17,6 +20,11 @@ const buildProfileState = (currentCliente = null) => ({
       .trim() ||
     currentCliente?.correoCliente ||
     profileData.username,
+  profileIcon:
+    currentCliente?.profileIcon ||
+    authService.getProfileIcon(currentCliente?.idCliente) ||
+    profileData.profileIcon ||
+    "",
   form: {
     nombreCliente:
       currentCliente?.nombreCliente ?? profileData.form?.firstName ?? "",
@@ -25,6 +33,7 @@ const buildProfileState = (currentCliente = null) => ({
     correoCliente:
       currentCliente?.correoCliente ?? profileData.form?.email ?? "",
   },
+  stats: stats || profileData.stats,
 });
 
 export const Profile = () => {
@@ -33,6 +42,13 @@ export const Profile = () => {
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const buildProfileStats = (stats = null) => ({
+    totalReservations: Number(stats?.totalReservations) || 0,
+    playedHours:
+      stats?.playedHours ||
+      `${Math.floor((Number(stats?.totalMinutes) || 0) / 60)}h`,
+  });
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -44,10 +60,24 @@ export const Profile = () => {
       }
 
       try {
-        const latestClient = await authService.getClientById(
-          currentCliente.idCliente,
+        const [latestClient, latestStats] = await Promise.all([
+          authService.getClientById(currentCliente.idCliente),
+          authService.getClientStatsById(currentCliente.idCliente),
+        ]);
+        setProfile(
+          buildProfileState(
+            {
+              ...currentCliente,
+              ...latestClient,
+              profileIcon:
+                authService.getProfileIcon(currentCliente.idCliente) ||
+                currentCliente.profileIcon ||
+                latestClient?.profileIcon ||
+                "",
+            },
+            buildProfileStats(latestStats),
+          ),
         );
-        setProfile(buildProfileState(latestClient ?? currentCliente));
       } catch (loadError) {
         setError(loadError.message || "No se pudo cargar tu perfil.");
       } finally {
@@ -59,7 +89,23 @@ export const Profile = () => {
   }, []);
 
   const handleProfileUpdated = (updatedClient) => {
-    setProfile(buildProfileState(updatedClient));
+    setProfile((currentProfile) =>
+      buildProfileState(updatedClient, currentProfile.stats),
+    );
+  };
+
+  const handleProfileIconChange = (profileIcon) => {
+    const currentCliente = authService.getCurrentCliente();
+
+    if (!currentCliente?.idCliente) {
+      return;
+    }
+
+    authService.setProfileIcon(profileIcon);
+    setProfile((currentProfile) => ({
+      ...currentProfile,
+      profileIcon,
+    }));
   };
 
   return (
@@ -77,7 +123,10 @@ export const Profile = () => {
             Cargando perfil…
           </div>
         ) : (
-          <ProfileHero profile={profile} />
+          <ProfileHero
+            profile={profile}
+            onProfileIconChange={handleProfileIconChange}
+          />
         )}
 
         <div className="grid grid-cols-1 gap-gutter md:grid-cols-12">

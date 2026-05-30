@@ -1,4 +1,5 @@
 const Cliente = require("../models/Cliente");
+const Prestamo = require("../models/Prestamo");
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 
@@ -35,6 +36,30 @@ const show = async (req, res) => {
         nombreCliente: cliente.nombreCliente,
         apellidoCliente: cliente.apellidoCliente,
         correoCliente: cliente.correoCliente,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const showStats = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const cliente = await Cliente.getById(id);
+    if (!cliente) {
+      return res.status(404).json({ message: "Cliente no encontrado" });
+    }
+
+    const stats = await Prestamo.getStatsByCliente(id);
+    const playedHours = `${Math.floor(stats.totalMinutes / 60)}h`;
+
+    res.json({
+      stats: {
+        totalReservations: stats.totalReservations,
+        playedHours,
+        totalMinutes: stats.totalMinutes,
       },
     });
   } catch (error) {
@@ -172,4 +197,13 @@ const logout = (req, res) => {
   res.json({ message: "Logged out successfully" });
 };
 
-module.exports = { index, show, register, login, update, destroy, logout };
+module.exports = {
+  index,
+  show,
+  showStats,
+  register,
+  login,
+  update,
+  destroy,
+  logout,
+};
